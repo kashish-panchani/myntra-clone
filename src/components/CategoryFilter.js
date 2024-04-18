@@ -1,8 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Header from "./Header";
-import ProductItems from "./ProductItems";
-import { productmodal, settings } from "../Constants";
 import Slider from "react-slick";
 import { Link, useParams } from "react-router-dom";
 
@@ -85,6 +82,16 @@ const CategoryFilter = () => {
     }));
   };
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 300,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <>
       <div className="overflow-hidden sm:container sm:mx-auto pt-16 sm:pt-24 pb-10">
@@ -126,7 +133,7 @@ const CategoryFilter = () => {
               </div>
 
               <div className="p-2 sm:p-4">
-                 <Link to={`/ProductsDetail/${product.id}`}>
+                <Link to={`/ProductsDetail/${product.id}`}>
                   <h2 className="text-xs  sm:text-base  font-bold line-clamp-1 text-gray-800">
                     {product.title}
                   </h2>

@@ -1,10 +1,4 @@
 import React, { useEffect } from "react";
-import hero from "../Images/home/heroooo.webp";
-import herosec from "../Images/home/herosec.jpg";
-import coupn from "../Images/home/coupn.webp";
-import home3 from "../Images/home/home3.webp";
-import home4 from "../Images/home/home5.webp";
-import third from "../Images/home/third.webp";
 import footerimg from "../Images/home/footeimage.webp";
 import { Link } from "react-router-dom";
 import { brandimgs, offerimg } from "../Constants/home";
@@ -13,14 +7,15 @@ const HomePage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
-      <div className="overflow-hidden ">
-        <div className="">
+      <div className="overflow-hidden">
+        <div>
           <Link to="/all">
             <div className="sm:flex pt-20 hidden  justify-center items-center ">
               <div>
-                <img src={hero} alt="" className="" />
+                <img src="/Images/home/heroooo.webp" alt="hero image" />
               </div>
             </div>
           </Link>
@@ -28,25 +23,29 @@ const HomePage = () => {
           <Link to="/all">
             <div className="flex pt-20 sm:hidden justify-center max-w-full items-center ">
               <div>
-                <img src={herosec} alt="" className="object-contain" />
+                <img
+                  src="/Images/home/herosec.jpg"
+                  alt="heroimg"
+                  className="object-contain"
+                />
               </div>
             </div>
           </Link>
           <div>
-            <img src={coupn} alt="" className="" />
+            <img src="/Images/home/coupn.webp" alt="coupnimg" />
           </div>
 
           <div className="flex justify-center items-center sm:mx-2 lg:mx-3">
             <div>
-              <img src={home3} alt="" className="" />
+              <img src="/Images/home/home3.webp" alt="offer" />
             </div>
             <div>
-              <img src={home4} alt="" className="" />
+              <img src="/Images/home/home5.webp" alt="offer" />
             </div>
           </div>
 
           <div className="flex">
-            <img src={third} alt="" className="" />
+            <img src="/Images/home/third.webp" alt="deal" />
           </div>
         </div>
 

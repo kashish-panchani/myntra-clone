@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import picture from "../Images/pic.webp";
+import picture from "../Images/login/pic.webp";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import USERIMAGE from "../Images/profile.jpg";
+import USERIMAGE from "../Images/login/profile.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
