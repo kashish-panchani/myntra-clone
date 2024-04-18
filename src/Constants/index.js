@@ -38,29 +38,3 @@ export const headerlinks = [
   },
 ];
 
-export const homeImagelink = [
-  {
-    url: "/all",
-    title: "All",
-  },
-  {
-    url: "/CategoryFilter/smartphones",
-    title: "SMARTPHONES",
-  },
-  {
-    url: "/CategoryFilter/womens-bags",
-    title: "BAG",
-  },
-  {
-    url: "/CategoryFilter/sunglasses",
-    title: "SUNGLASSES",
-  },
-  {
-    url: "/CategoryFilter/womens-jewellery",
-    title: "JEWELLERY",
-  },
-  {
-    url: "/CategoryFilter/laptops",
-    title: "LAPTOP",
-  },
-];
