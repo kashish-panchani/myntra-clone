@@ -40,7 +40,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="">
+      <div>
         <header className="overflow-hidden container bg-white shadow-md max-w-full z-10 fixed">
           <nav className="overflow-hidden bg-white  dark:bg-gray-900  w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
             <div className="flex sm:mx-3 md:mx-4 lg:mx-5 xl:mx-8 flex-wrap justify-between  items-center  py-4">

@@ -1,53 +1,51 @@
 export const brandimgs = [
   {
-    id:1,
-    img: "https://assets.tatacliq.com/medias/sys_master/images/49792073334814.jpg",
-    url:"/CategoryFilter/mens-shoes",
+    id: 1,
+    img: "/images/home/brandimg1.jpg",
+    url: "/CategoryFilter/mens-shoes",
   },
   {
-    id:2,
-    img: "https://assets.tatacliq.com/medias/sys_master/images/49733324931102.jpg",
-    url:"/CategoryFilter/womens-bags",
-},
-{
-    id:3,
-    img: "https://assets.tatacliq.com/medias/sys_master/images/49739179622430.jpg",
-    url:"/CategoryFilter/mens-shirts",
-},
-{
-    id:4,
-    img: "https://assets.tatacliq.com/medias/sys_master/images/49792074317854.jpg",
-    url:"/CategoryFilter/mens-watches",
-},
-{
-    id:5,
-    img: "https://assets.tatacliq.com/medias/sys_master/images/49792074711070.jpg",
-    url:"/CategoryFilter/home-decoration",
-
+    id: 2,
+    img: "/images/home/brandimg2.webp",
+    url: "/CategoryFilter/womens-bags",
+  },
+  {
+    id: 3,
+    img: "/images/home/brandimg3.jpg",
+    url: "/CategoryFilter/mens-shirts",
+  },
+  {
+    id: 4,
+    img: "/images/home/brandimg4.jpg",
+    url: "/CategoryFilter/mens-watches",
+  },
+  {
+    id: 5,
+    img: "/images/home/brandimg5.webp",
+    url: "/CategoryFilter/home-decoration",
   },
 ];
 
 export const offerimg = [
-    {
-      id:1,
-      img: "https://assets.tatacliq.com/medias/sys_master/images/49739180343326.jpg",
-      url:"/CategoryFilter/womens-bags",
-    },
-    {
-      id:2,
-      img: "https://assets.tatacliq.com/medias/sys_master/images/49739180408862.jpg",
-      url:"/CategoryFilter/womens-watches",
+  {
+    id: 1,
+    img: "/images/home/offerimg1.jpg",
+    url: "/CategoryFilter/womens-bags",
   },
   {
-      id:3,
-      img: "https://assets.tatacliq.com/medias/sys_master/images/49739180605470.jpg",
-      url:"/CategoryFilter/sunglasses",
+    id: 2,
+    img: "/images/home/offerimg2.jpg",
+    url: "/CategoryFilter/womens-watches",
   },
   {
-      id:4,
-      img: "https://assets.tatacliq.com/medias/sys_master/images/49739180736542.jpg",
-      url:"/CategoryFilter/womens-shoes",
+    id: 3,
+    img: "/images/home/offerimg3.jpg",
+    url: "/CategoryFilter/sunglasses",
   },
-  
-  ];
-  
+  {
+    id: 4,
+    img: "/images/home/offerimg4.jpg",
+    url: "/CategoryFilter/womens-shoes",
+  },
+];
+

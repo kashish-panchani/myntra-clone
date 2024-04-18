@@ -3,11 +3,10 @@ import { toast } from "react-toastify";
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import imagelogin from "../Images/login.png";
+import imagelogin from "../Images/login/login.png";
 const Wishlist = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartItems, setCartItems] = useState([]);
-
   const [wishlist, setWishlist] = useState([]);
   const [addedToCart, setAddedToCart] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -110,7 +109,7 @@ const Wishlist = () => {
             >
               LOGIN
             </Link>
-          </div> 
+          </div>
         ) : (
           <div className="pb-10 pt-20  sm:pb-0 sm:container sm:mx-auto">
             {wishlist.length ? (
@@ -138,7 +137,7 @@ const Wishlist = () => {
                         <img
                           className="object-contain  sm:rounded-xl w-full sm:w-[300px]"
                           src={product.thumbnail}
-                          alt="product image" 
+                          alt="product image"
                           onClick={() => openModal(product)}
                         />
                       </Link>
