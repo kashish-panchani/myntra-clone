@@ -15,7 +15,7 @@ const HomePage = () => {
           <Link to="/all">
             <div className="sm:flex pt-20 hidden  justify-center items-center ">
               <div>
-                <img src="/Images/home/heroooo.webp" alt="hero image" />
+                <img src="/images/home/heroooo.webp" alt="hero image" />
               </div>
             </div>
           </Link>
