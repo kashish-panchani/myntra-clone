@@ -24,7 +24,7 @@ const HomePage = () => {
             <div className="flex pt-20 sm:hidden justify-center max-w-full items-center ">
               <div>
                 <img
-                  src="/Images/home/herosec.jpg"
+                  src="/images/home/herosec.jpg"
                   alt="heroimg"
                   className="object-contain"
                 />
@@ -32,20 +32,20 @@ const HomePage = () => {
             </div>
           </Link>
           <div>
-            <img src="/Images/home/coupn.webp" alt="coupnimg" />
+            <img src="/images/home/coupn.webp" alt="coupnimg" />
           </div>
 
           <div className="flex justify-center items-center sm:mx-2 lg:mx-3">
             <div>
-              <img src="/Images/home/home3.webp" alt="offer" />
+              <img src="/images/home/home3.webp" alt="offer" />
             </div>
             <div>
-              <img src="/Images/home/home5.webp" alt="offer" />
+              <img src="/images/home/home5.webp" alt="offer" />
             </div>
           </div>
 
           <div className="flex">
-            <img src="/Images/home/third.webp" alt="deal" />
+            <img src="/images/home/third.webp" alt="deal" />
           </div>
         </div>
 
