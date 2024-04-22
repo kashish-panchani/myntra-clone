@@ -4,17 +4,20 @@ import { footerLink } from "../Constants/footer";
 
 function Footer() {
   return (
-    <footer className="bg-gray-200 text-gray-600">
+    <footer className="bg-gray-50 text-gray-600">
       <div className="container mx-auto pt-2 sm:py-8 px-4 ">
         <div className="flex justify-start gap-4">
           {footerLink.map((el) => (
-            <div className=" w-[28%] xl:text-xl lg:w-1/3 text-[8px] md:text-sm lg:text-lg sm:text-sm sm:w-1/4 lg:text-left mb-4 lg:mb-0">
-              <h4 className="xl:text-xl lg:text-lg text-[7px] sm:text-xs  md:text-sm font-bold mb-4">
+            <div
+              className="w-[28%] text-[8px] sm:text-sm lg:text-left mb-4 lg:mb-0"
+              key={el.id}
+            >
+              <h4 className="text-[7px] sm:text-xs font-bold mb-4">
                 {el.title}
               </h4>
               <ul>
-                {el.links.map((e) => (
-                  <a href={e.link}>
+                {el.links.map((e,index) => (
+                  <a href={e.link} key={index}>
                     <li>{e.label}</li>
                   </a>
                 ))}
@@ -23,10 +26,8 @@ function Footer() {
           ))}
         </div>
         <div className="my-10">
-          <h1 className="font-bold xl:text-lg lg:text-lg md:text-sm sm:text-xs  text-[7px] ">
-            MYNTRA APP
-          </h1>
-          <p className="xl:text-xl lg:text-lg md:text-sm sm:text-sm  text-[8px]">
+          <h1 className="font-bold text-[8px]  sm:text-xs">MYNTRA APP</h1>
+          <p className="sm:text-sm text-[8px]">
             Myntra, India’s no. 1 online fashion destination justifies its
             fashion relevance by bringing something new and chic to the table on
             the daily. Fashion trends seem to change at lightning speed, yet the
@@ -37,6 +38,22 @@ function Footer() {
             deals and other special perks on all your shopping with the Myntra
             app. Download the Myntra app on your Android or IOS device today and
             experience shopping like never before!
+          </p>
+        </div>{" "}
+        <div className="my-10">
+          <h1 className="font-bold text-[8px] sm:text-xs ">
+            ONLINE SHOPPING MADE EASY AT MYNTRA
+          </h1>
+          <p className="sm:text-sm text-[8px]">
+            If you would like to experience the best of online shopping for men,
+            women and kids in India, you are at the right place. Myntra is the
+            ultimate destination for fashion and lifestyle, being host to a wide
+            array of merchandise including clothing, footwear, accessories,
+            jewellery, personal care products and more. It is time to redefine
+            your style statement with our treasure-trove of trendy items. Our
+            online store brings you the latest in designer products straight out
+            of fashion houses. You can shop online at Myntra from the comfort of
+            your home and get your favourites delivered right to your doorstep.
           </p>
         </div>
         <div className="flex justify-center items-center mt-8">
@@ -54,7 +71,7 @@ function Footer() {
               </Link>
             </div>
             <div className="text-center">
-              <span className="xl:text-xl lg:text-lg md:text-sm sm:text-sm text-[8px] font-bold ">
+              <span className="sm:text-sm text-[8px] font-bold">
                 © 1996-2023, Myntra.com, Inc. or its affiliates
               </span>
             </div>

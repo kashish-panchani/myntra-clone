@@ -1,22 +1,19 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { useState, useEffect, useCallback } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { settings } from "../Constants";
+import Slider from "react-slick";
+import { toast } from "react-toastify";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { settings } from "../Constants/header";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [isHover, setIshover] = useState(false);
-  const [isHoverSetProduct, setIsHoverSetProduct] = useState(null);
+  const [hoverSetProduct, setHoverSetProduct] = useState(null);
   const perPage = 30;
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`https://dummyjson.com/products?limit=0`);
@@ -27,14 +24,13 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-    const storedWishlist = localStorage.getItem("wishlist");
-    if (storedWishlist) {
-      setWishlist(JSON.parse(storedWishlist));
+    const savedWishlist = localStorage.getItem("wishlist");
+    if (savedWishlist) {
+      setWishlist(JSON.parse(savedWishlist));
     }
   }, []);
 
   const totalPages = Math.ceil(products.length / perPage);
-
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -45,19 +41,6 @@ const Products = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
-  };
-  
-
-  const openModal = useCallback((product) => {
-    setSelectedProduct(product);
-    localStorage.setItem("selectedProduct", JSON.stringify(product));
-  });
-
-  const selectThumbnail = (image) => {
-    setSelectedProduct((prevProduct) => ({
-      ...prevProduct,
-      thumbnail: image,
-    }));
   };
 
   const whishlistbtn = (productId, e) => {
@@ -71,15 +54,17 @@ const Products = () => {
           width: "200px",
           fontSize: "12px",
           float: "right",
-          marginTop: "35px",
+          marginTop: "50px",
         },
       });
 
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     } else {
-      const productToAdd = products.find((product) => product.id === productId);
-      if (productToAdd) {
-        setWishlist([...wishlist, productToAdd]);
+      const updatedWishlist = products.find(
+        (product) => product.id === productId
+      );
+      if (updatedWishlist) {
+        setWishlist([...wishlist, updatedWishlist]);
         toast.success("Added to wishlist", {
           style: {
             width: "200px",
@@ -90,7 +75,7 @@ const Products = () => {
         });
         localStorage.setItem(
           "wishlist",
-          JSON.stringify([...wishlist, productToAdd])
+          JSON.stringify([...wishlist, updatedWishlist])
         );
       }
     }
@@ -101,117 +86,132 @@ const Products = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
-    <div className="bg-gray-100 overflow-hidden min-h-screen">
-     
+    <div className="sm:container sm:mx-auto pt-16 sm:pt-24 pb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-4">
+        {products.slice(startIndex, endIndex).map((product) => (
+          <div
+            key={product.id}
+            className="sm:p-0 bg-white sm:rounded-lg hover:shadow-xl overflow-hidden"
+            onMouseEnter={() => {
+              setIshover(true);
+              setHoverSetProduct(product.id);
+            }}
+            onMouseLeave={() => {
+              setIshover(false);
+              setHoverSetProduct(null);
+            }}
+          >
+            <div className="h-[147px] sm:h-[194px] overflow-hidden">
+              {hoverSetProduct === product.id && isHover ? (
+                <Link to={`/productsdetail/${product.id}`}>
+                  <Slider {...settings} className="h-32 sm:h-44">
+                    {product.images.map((image, index) => (
+                      <div key={index}>
+                        <img
+                          src={image}
+                          alt={`Product ${index}`}
+                          className="w-full h-32 sm:h-44 object-contain"
+                        />
+                      </div>
+                    ))}
+                  </Slider>
+                </Link>
+              ) : (
+                <img
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="w-full h-32 sm:h-44 object-contain"
+                />
+              )}
+            </div>
 
-      <section className="py-0   sm:px-10">
-        <div className="container mx-auto sm:pt-24 pt-16">
-        
-          
-          
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-4 lg:gap-4 md:gap-4 sm:gap-2 ">
-              {products.slice(startIndex, endIndex).map((product) => (
+            {hoverSetProduct === product.id && isHover ? (
+              <div className="p-2 sm:p-4">
                 <div
-                  key={product.id}
-                  className="bg-white sm:rounded-lg hover:shadow-xl  shadow-lg overflow-hidden"
-                  onClick={() => openModal(product)}
+                  className="rounded-full cursor-pointer text-center px-1"
+                  onClick={(e) => whishlistbtn(product.id, e)}
                 >
-                  <div
-                    className="h-64  overflow-hidden"
-                    onMouseEnter={() => {
-                      setIshover(true);
-                      setIsHoverSetProduct(product.id);
-                    }}
-                    onMouseLeave={() => setIshover(false)}
-                  >
-                    {isHoverSetProduct === product.id && isHover ? (
-                      <Slider {...settings}>
-                        {product.images.map((image, index) => (
-                          <div key={index} className="h-[232px]">
-                            <img
-                              src={image}
-                              alt={`Product ${index}`}
-                              className="h-full w-full object-cover sm:object-contain"
-                              onClick={() => selectThumbnail(image)}
-                            />
-                          </div>
-                        ))}
-                      </Slider>
+                  <div className="border flex px-20 p-1 justify-center items-center w-full">
+                    {wishlist?.some((item) => item.id === product.id) ? (
+                      <i className="fa fa-heart text-sm text-rose-500"></i>
                     ) : (
-                      <img
-                        src={product.thumbnail}
-                        alt={product.title}
-                        className="h-[90%] sm:h-full sm:w-full object-cover sm:object-contain"
-                      />
+                      <i className="fa-regular fa-heart text-sm"></i>
                     )}
-                  </div>
-
-                  <div className="p-4">
-                     <Link to={`/ProductsDetail/${product.id}`}>
-                      <h2 className="text-xs sm:text-lg font-bold line-clamp-1 text-gray-800">
-                        {product.title}
-                      </h2>
-                      <p className="text-[10px]  sm:text-xs line-clamp-1 mt-2 text-gray-600">
-                        {product.description}
-                      </p>
-                    </Link>
-                    <div className="flex justify-between mt-2">
-                      <div className="flex items-center">
-                        <span className=" text-[10px] sm:text-sm font-bold text-gray-800">
-                          ₹
-                          {product.price -
-                            parseInt(
-                              (product.price * product.discountPercentage) / 100
-                            )}
-                        </span>
-                        <span className="font-semibold text-[10px] sm:text-xs mx-1 sm:mx-2 line-through text-slate-900">
-                          ₹{product.price}
-                        </span>
-                        <span className=" text-[8px] sm:text-xs leading-relaxed font- text-red-500">
-                          ({product.discountPercentage}% off)
-                        </span>
-                      </div>
-                      {/* Wishlist button */}
-                      <div
-                        className={` sm:rounded-full text-center sm:px-2  sm:py-1 ${
-                          wishlist?.some((item) => item.id === product.id)
-                            ? "sm:bg-gray-300"
-                            : "sm:bg-transparent sm:border sm:border-gray-300"
-                        }`}
-                        onClick={(e) => whishlistbtn(product.id, e)}
-                      >
-                        {wishlist?.some((item) => item.id === product.id) ? (
-                          <i className="fas fa-heart text-rose-500"></i>
-                        ) : (
-                          <i className="far fa-heart text-gray-500"></i>
-                        )}
-                      </div>
-                    </div>
+                    <span className="text-[10px] ml-1 font-bold">
+                      {wishlist?.some((item) => item.id === product.id)
+                        ? "WISHLISTED"
+                        : "WISHLIST"}
+                    </span>
                   </div>
                 </div>
-              ))}
-            </div>  
-        </div>
-      </section>
-
-      {!searchTerm || filteredProducts.length > perPage ? (
+                <div className="flex justify-start text-xs py-3 text-gray-600">
+                  <span>Category: {product.category}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="flex justify-center items-center text-xs sm:text-sm font-bold text-gray-800">
+                    ₹
+                    {product.price -
+                      parseInt(
+                        (product.price * product.discountPercentage) / 100
+                      )}
+                    <p className="text-[10px] mx-1 sm:text-xs sm:mx-2 line-through text-slate-400">
+                      ₹{product.price}
+                    </p>
+                    <p className="text-[9px] sm:text-xs leading-relaxed text-orange-300">
+                      ({Math.floor(product.discountPercentage)}% off)
+                    </p>
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="p-2 sm:p-4">
+                <Link to={`/productsdetail/${product.id}`}>
+                  <h2 className="text-xs capitalize sm:text-sm font-bold line-clamp-1 text-gray-800">
+                    {product.title}
+                  </h2>
+                  <p className="text-xs line-clamp-1 md:line-clamp-2 mt-2 text-gray-500">
+                    {product.description}
+                  </p>
+                </Link>
+                <div className="flex justify-between items-center sm:mt-3">
+                  <span className="flex justify-center items-center text-xs sm:text-sm font-bold text-gray-800">
+                    ₹
+                    {product.price -
+                      parseInt(
+                        (product.price * product.discountPercentage) / 100
+                      )}
+                    <p className="text-[10px] mx-1 sm:text-xs sm:mx-2 line-through text-slate-400">
+                      ₹{product.price}
+                    </p>
+                    <p className="text-[9px] sm:text-xs leading-relaxed text-orange-300">
+                      ({Math.floor(product.discountPercentage)}% off)
+                    </p>
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      {perPage ? (
         <div className="flex justify-center py-12">
           <button
             onClick={handlePrevPage}
-            className={`mx-2 px-3 py-2  text-xs border rounded-full ${
+            className={`mx-2 px-3 py-2 text-xs border rounded-full ${
               currentPage === 1
                 ? "bg-gray-300 cursor-not-allowed text-gray-500"
                 : "bg-blue-500 text-white"
             }`}
             disabled={currentPage === 1}
           >
-            <i class="fa-solid fa-angle-left "></i>
+            <i className="fa-solid fa-angle-left "></i>
           </button>
           <span className="pt-2 text-xs">page {currentPage} </span>
           <button
             onClick={handleNextPage}
-            className={`mx-2 px-3 py-2  text-xs border rounded-full
+            className={`mx-2 px-3 py-2 text-xs border rounded-full
                       ${
                         currentPage === totalPages
                           ? "bg-gray-300 cursor-not-allowed text-gray-500"
@@ -219,7 +219,7 @@ const Products = () => {
                       }`}
             disabled={currentPage === totalPages}
           >
-            <i class="fa-solid fa-angle-right"></i>
+            <i className="fa-solid fa-angle-right"></i>
           </button>
         </div>
       ) : null}

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ProductItems from "./ProductItems";
-import { productmodal } from "../Constants";
-import { useParams } from "react-router-dom";
 
 const SearchProduct = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [isHover, setIshover] = useState(false);
-  const [isHoverSetProduct, setIsHoverSetProduct] = useState(null);
+  const [hoverSetProduct, setHoverSetProduct] = useState(null);
   const [wishlist, setWishlist] = useState([]);
-  const { searchTerm } = useParams();
+  const { searchQuery } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`https://dummyjson.com/products?limit=0`);
@@ -23,14 +21,16 @@ const SearchProduct = () => {
 
   useEffect(() => {
     const filtered = products.filter((product) =>
-      product?.title.toLowerCase().includes(searchTerm?.toLowerCase())
+      product?.title.toLowerCase().includes(searchQuery?.toLowerCase())
     );
     setFilteredProducts(filtered);
-  }, [searchTerm, products]);
+  }, [searchQuery, products]);
 
   const whishlistbtn = (productId, e) => {
     e.stopPropagation();
-    const isInWishlist = wishlist?.some((item) => item.id === productId);
+    const isInWishlist = wishlist?.some((item) => item.id === productId );
+    
+    console.log("productId::",productId);
     if (isInWishlist) {
       const updatedWishlist = wishlist.filter((item) => item.id !== productId);
       setWishlist(updatedWishlist);
@@ -45,9 +45,9 @@ const SearchProduct = () => {
 
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     } else {
-      const productToAdd = products.find((product) => product.id === productId);
-      if (productToAdd) {
-        setWishlist([...wishlist, productToAdd]);
+      const updatedWishlist = products.find((product) => product.id === productId);
+      if (updatedWishlist) {
+        setWishlist([...wishlist, updatedWishlist]);
         toast.success("Added to wishlist", {
           style: {
             width: "200px",
@@ -58,23 +58,12 @@ const SearchProduct = () => {
         });
         localStorage.setItem(
           "wishlist",
-          JSON.stringify([...wishlist, productToAdd])
+          JSON.stringify([...wishlist, updatedWishlist])
         );
       }
     }
   };
 
-  const openModal = (product) => {
-    setSelectedProduct(product);
-    localStorage.setItem("selectedProduct", JSON.stringify(product));
-  };
-
-  const selectThumbnail = (image) => {
-    setSelectedProduct((prevProduct) => ({
-      ...prevProduct,
-      thumbnail: image,
-    }));
-  };
   return (
     <div>
       <section className="py-10 px-5 sm:px-10">
@@ -84,17 +73,14 @@ const SearchProduct = () => {
               No products found
             </div>
           ) : (
-            <ProductItems 
-              productmodal={productmodal}
+            <ProductItems
               filteredProducts={filteredProducts}
               setIshover={setIshover}
-              setIsHoverSetProduct={setIsHoverSetProduct}
-              isHoverSetProduct={isHoverSetProduct}
+              setHoverSetProduct={setHoverSetProduct}
+              hoverSetProduct={hoverSetProduct}
               isHover={isHover}
-              selectThumbnail={selectThumbnail}
               wishlist={wishlist}
               whishlistbtn={whishlistbtn}
-              openModal={openModal}
             />
           )}
         </div>

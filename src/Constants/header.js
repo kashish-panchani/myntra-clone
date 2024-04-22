@@ -8,32 +8,30 @@ export const settings = {
   slidesToScroll: 1,
 };
 
-export const productmodal = (product, openModal) => {
-  openModal(product);
-};
+
 export const headerlinks = [
   {
     url: "/all",
     title: "All",
   },
   {
-    url: "/CategoryFilter/smartphones",
+    url: "/category/smartphones",
     title: "SMARTPHONES",
   },
   {
-    url: "/CategoryFilter/womens-bags",
+    url: "/category/womens-bags",
     title: "BAG",
   },
   {
-    url: "/CategoryFilter/sunglasses",
+    url: "/category/sunglasses",
     title: "SUNGLASSES",
   },
   {
-    url: "/CategoryFilter/womens-jewellery",
+    url: "/category/womens-jewellery",
     title: "JEWELLERY",
   },
   {
-    url: "/CategoryFilter/laptops",
+    url: "/category/laptops",
     title: "LAPTOP",
   },
 ];
