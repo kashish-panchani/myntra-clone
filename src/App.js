@@ -8,7 +8,7 @@ import ProductsDetail from "./components/ProductsDetail";
 import HomePage from "./pages/Home";
 import Footer from "./components/Footer";
 import ErrorPage from "./pages/Error";
-import CategoryFilter from "./components/CategoryFilter";
+import Category from "./components/Category";
 import Header from "./components/Header";
 import SearchProduct from "./components/SearchProduct";
 
@@ -22,15 +22,11 @@ const App = () => {
         <Route path="/login" exact element={<Login />} />
         <Route path="/cart" exact element={<Cart />} />
         <Route path="/wishlist" exact element={<Wishlist />} />
-        <Route path="/ProductsDetail/:id" exact element={<ProductsDetail />} />
-        <Route
-          path="/CategoryFilter/:type"
-          exact
-          element={<CategoryFilter />}
-        />
+        <Route path="/productsdetail/:id" exact element={<ProductsDetail />} />
+        <Route path="/category/:type" exact element={<Category />} />
         <Route path="/*" exact element={<ErrorPage />} />
         <Route
-          path="/SearchProduct/:searchTerm"
+          path="/searchproduct/:searchQuery"
           exact
           element={<SearchProduct />}
         />

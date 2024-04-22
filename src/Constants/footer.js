@@ -1,5 +1,6 @@
 export const footerLink = [
   {
+    id:1,
     title: "GET TO KNOW",
     links: [
       { label: "About Us", link: "#" },
@@ -9,6 +10,7 @@ export const footerLink = [
     ],
   },
   {
+    id:2,
     title: "CONNECT WITH US",
     links: [
       { label: "Facebook", link: "https://www.facebook.com/" },
@@ -17,6 +19,7 @@ export const footerLink = [
     ],
   },
   {
+    id:3,
     title: "MAKE MONEY WITH US",
     links: [
       { label: "Sell on Myntra", link: "#" },
@@ -25,12 +28,23 @@ export const footerLink = [
       { label: "Become an Affiliate", link: "#" },
     ],
   },{
+    id:4,
     title: "LET US HELP YOU",
     links: [
       { label: "Contact us", link: "#" },
       { label: "Your Account", link: "#" },
       { label: "Returns Centre", link: "#" },
       { label: "Become an Affiliate", link: "#" },
+    ],
+  },
+  {
+    id:5,
+    title: "ONLINE SHOPPING",
+    links: [
+      { label: "Men", link: "#" },
+      { label: "Women", link: "#" },
+      { label: "Kids", link: "#" },
+      { label: "Beauty", link: "#" },
     ],
   },
 ];

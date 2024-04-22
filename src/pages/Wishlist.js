@@ -1,16 +1,12 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import imagelogin from "../Images/login/login.png";
 const Wishlist = () => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [wishlist, setWishlist] = useState([]);
-  const [addedToCart, setAddedToCart] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
     if (savedWishlist) {
@@ -18,12 +14,6 @@ const Wishlist = () => {
     }
   }, []);
 
-  const openModal = useCallback((product) => {
-    setSelectedProduct(product);
-    const isInCart = cartItems?.some((item) => item.id === product.id);
-    setAddedToCart(isInCart);
-    localStorage.setItem("selectedProduct", JSON.stringify(product));
-  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -53,7 +43,6 @@ const Wishlist = () => {
   };
   useEffect(() => {
     const savedCartItems = localStorage.getItem("cartItems");
-
     if (savedCartItems) {
       const parsedCartItems = JSON.parse(savedCartItems);
       setCartItems(parsedCartItems);
@@ -66,7 +55,6 @@ const Wishlist = () => {
     e.stopPropagation();
     const updatedWishlist = wishlist.filter((item) => item.id !== productId);
     setWishlist(updatedWishlist);
-
     toast.error("Removed from wishlist", {
       style: {
         width: "200px",
@@ -81,16 +69,16 @@ const Wishlist = () => {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     if (isLoggedIn === "true") {
-      setLoggedIn(true);
+      setIsLoggedIn(true);
     } else {
-      setLoggedIn(false);
+      setIsLoggedIn(false);
     }
   }, []);
 
   return (
     <div className="overflow-hidden">
       <>
-        {!loggedIn ? (
+        {!isLoggedIn ? (
           <div className="flex flex-col items-center justify-center py-10 sm:py-32">
             <h1 className="sm:text-xl font-bold mb-4">PLEASE LOG IN</h1>
             <p className="text-gray-400 sm:text-lg  text-xs ">
@@ -114,42 +102,44 @@ const Wishlist = () => {
           <div className="pb-10 pt-20  sm:pb-0 sm:container sm:mx-auto">
             {wishlist.length ? (
               <>
-                <div className="sm:container  my-5 sm:my-0   pl-4 sm:mt-16  sm:pl-16 sm:mx-auto font-bold text-xs sm:text-base  text-black">
+                <div className="sm:container  my-5 sm:my-0   pl-4 sm:mt-16  sm:pl-16 sm:mx-auto font-bold text-xs sm:text-base">
                   My Wishlist{" "}
                   <span className="font-normal ">{wishlist.length} items</span>
                 </div>
 
-                <div class="sm:mx-auto relative mx-1 sm:mt-10   max-w-full xl:max-w-full lg:max-w-[1000px]  md:max-w-[704px] sm:max-w-[576px] grid grid-cols-2  xl:m-10   xl:grid-cols-4 md:grid-cols-3 lg:grid-cols-4   sm:grid-cols-2     sm:m-8  overflow-hidden sm:rounded-lg ">
-                  {wishlist.map((product) => (
-                    <div class="relative  flex flex-wrap justify-center items-center    max-w-xl  my-1 mx-1 sm:my-3 xl:mx-3 md:mx-2 sm:m-2 overflow-hidden sm:rounded-lg border hover:shadow-xl border-gray-100 bg-white shadow-md">
+                <div className=" sm:mx-auto p-1 sm:p-0 relative mx-1 max-w-full grid grid-cols-2   xl:grid-cols-5 md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 sm:m-8 overflow-hidden ">
+                  {wishlist.map((product, inx) => (
+                    <div
+                      className="relative  flex flex-wrap justify-center items-center m-1 sm:mx-4 sm:my-3  border hover:shadow-xl border-gray-100 bg-white shadow-md"
+                      key={inx}
+                    >
                       <div className="w-full">
                         <button
                           className="float-right"
                           onClick={(e) => removeFromWishlist(product.id, e)}
                         >
-                          <i class="fa-solid fa-xmark my-3 mr-2   sm:mr-5"></i>
+                          <i className="fa-solid fa-xmark my-3 mr-2   sm:mr-5"></i>
                         </button>
                       </div>
                       <Link
-                        to={`/ProductsDetail/${product.id}`}
-                        className="relative  mx-3  flex h-44 overflow-hidden "
+                        to={`/productsdetail/${product.id}`}
+                        className="relative  mx-3  flex overflow-hidden "
                       >
                         <img
-                          className="object-contain  sm:rounded-xl w-full sm:w-[300px]"
+                          className="object-contain  w-full h-28  "
                           src={product.thumbnail}
                           alt="product image"
-                          onClick={() => openModal(product)}
                         />
                       </Link>
-                      <div class="mt-1  sm:mt-4 sm:px-5 w-full sm:pb-5">
+                      <div className="mt-6 sm:px-5 w-full sm:pb-5">
                         <a href="#">
-                          <h5 class="text-base   sm:text-lg pl-4 sm:pl-0 font-semibold tracking-tight line-clamp-1 text-slate-900">
+                          <h5 className="capitalize text-sm  pl-4 sm:pl-0  tracking-tight line-clamp-1 text-gray-500">
                             {product.title}
                           </h5>
                         </a>
-                        <div class="sm:mt-2 pl-4 sm:pl-0 mb-2 sm:mb-5  flex items-center justify-between">
+                        <div className="sm:mt-2 pl-4 sm:pl-0 mb-2 sm:mb-5  flex items-center justify-between">
                           <p>
-                            <span className="text-xs sm:text-base font-bold leading-relaxed">
+                            <span className="text-[10px] sm:text-sm  font-bold leading-relaxed">
                               ₹
                               {product.price -
                                 parseInt(
@@ -158,17 +148,17 @@ const Wishlist = () => {
                                 )}
                             </span>
 
-                            <span class="font-semibold text-[10px] sm:text-xs mx-1 line-through text-slate-900">
+                            <span className="font-semibold text-[10px] sm:text-xs mx-2 line-through text-gray-400">
                               ₹{product.price}
                             </span>
-                            <span className="sm:text-xs text-[10px] leading-relaxed  sm:font-bold text-orange-300 sm:text-red-500">
-                              ({product.discountPercentage}% off)
+                            <span className=" text-[11px] leading-relaxed  sm:font-bold text-orange-300">
+                              ({Math.floor(product.discountPercentage)}% off)
                             </span>
                           </p>
                         </div>
                         <a
                           href="#"
-                          class="flex items-center justify-center border-t sm:border sm:rounded-md sm:bg-slate-900 px-5 py-4 sm:py-2.5  text-sm font-medium text-rose-500 sm:text-white  hover:sm:bg-gray-700 focus:outline-none focus:ring-4 sm:focus:ring-blue-300"
+                          className="flex items-center justify-center border-t sm:border sm:bg-slate-900 px-5 py-3 sm:py-2.5  text-sm font-medium text-rose-500 sm:text-white  hover:sm:bg-gray-700 focus:outline-none focus:ring-4 sm:focus:ring-blue-300"
                           onClick={(e) => moveToCart(product, e)}
                         >
                           Move to cart

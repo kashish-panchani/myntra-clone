@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 const ProductsDetail = () => {
   const { id } = useParams();
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState(null);
   const [count, setCount] = useState(0);
   const [wishlist, setWishlist] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -13,12 +13,11 @@ const ProductsDetail = () => {
     try {
       const response = await fetch(`https://dummyjson.com/products/${id}`);
       const data = await response.json();
-      setSelectedProduct(data);
+      setProducts(data);
     } catch (error) {
       console.error("Error fetching product details:", error);
     }
   };
-
   useEffect(() => {
     fetchProductDetails();
   }, [id]);
@@ -28,16 +27,16 @@ const ProductsDetail = () => {
     setCartItems(savedCartItems);
     setCount(savedCartItems.length);
 
-    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(storedWishlist);
+    const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    setWishlist(savedWishlist);
   }, []);
 
   const addToCart = () => {
     const isAlreadyInCart = cartItems.some(
-      (item) => item.id === selectedProduct.id
+      (item) => item.id === products.id
     );
     const maxQuantity = 10;
-    const productWithQuantity = { ...selectedProduct, quantity: 1 };
+    const productWithQuantity = { ...products, quantity: 1};
     if (!isAlreadyInCart && cartItems.length < maxQuantity) {
       setCartItems([...cartItems, productWithQuantity]);
       setCount(count + 1);
@@ -61,9 +60,9 @@ const ProductsDetail = () => {
     const isInWishlist = wishlist.some((item) => item.id === productId);
     const updatedWishlist = isInWishlist
       ? wishlist.filter((item) => item.id !== productId)
-      : [...wishlist, selectedProduct];
+      : [...wishlist, products];
     setWishlist(updatedWishlist);
-    localStorage.setItem("wishlist",JSON.stringify(updatedWishlist));
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     toast[isInWishlist ? "error" : "success"](
       isInWishlist ? "Removed from wishlist" : "Added to wishlist",
       {
@@ -81,14 +80,14 @@ const ProductsDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  if (!selectedProduct) return null;
+  if (!products) return null;
 
   return (
     <>
       <div className="container mx-auto py-20 block md:flex md:justify-center">
         <div className="flex justify-center items-center w-full">
           <div className="p-4 flex-wrap grid xl:grid-cols-2 md:grid-cols-2 md:p-0 gap-2">
-            {selectedProduct.images.map((image, index) => (
+            {products.images.map((image, index) => (
               <div
                 key={index}
                 className="w-full xl:w-[350px] xl:h-[350px] lg:w-[290px] lg:h-[290px] md:w-[200px] md:h-[200px] border "
@@ -106,19 +105,19 @@ const ProductsDetail = () => {
         <div className="flex flex-col px-4 sm:px-16 gap-3 xl:gap-5 lg:gap-4 md:gap-2 sm:gap-3 md:px-0 py-5 md:py-20 xl:w-2/3  md:w-[41%]">
           <div className="flex flex-col gap-2  xl:gap-5 lg:gap-4 md:gap-3 sm:gap-3 ">
             <h1 className="xl:text-3xl lg:text-2xl md:text-xl sm:text-xl text-lg  font-bold">
-              {selectedProduct.title}
+              {products.title}
             </h1>
             <h1 className="text-gray-400 xl:text-xl lg:text-lg md:text-sm sm:text-base text-sm font-normal">
-              {selectedProduct.category}
+              {products.category}
             </h1>
             <h1 className="text-gray-400 xl:text-xl lg:text-lg md:text-sm sm:text-sm text-sm font-normal">
-              {selectedProduct.description}
+              {products.description}
             </h1>
             <p className="text-gray-400 xl:text-xl lg:text-lg md:text-sm sm:text-sm text-sm leading-relaxed font-normal">
-              {selectedProduct.brand}
+              {products.brand}
             </p>
             <div className="border border-gary-200 w-14 text-xs    flex items-center font-bold justify-evenly">
-              {selectedProduct.rating}{" "}
+              {products.rating}{" "}
               <i className="fa-solid fa-star mt-1 text-xs text-teal-500"></i>
             </div>
             <hr />
@@ -127,21 +126,21 @@ const ProductsDetail = () => {
           <div className="flex items-center my-1 xl:text-2xl   font-bold text-black">
             <p className="xl:text-2xl lg:text-lg md:text-sm sm:text-sm text-xs font-bold">
               ₹
-              {selectedProduct.price -
+              {products.price -
                 (
-                  (selectedProduct.price * selectedProduct.discountPercentage) /
+                  (products.price * products.discountPercentage) /
                   100
                 ).toFixed()}
             </p>
             <p className="text-xs xl:text-xl lg:text-base md:text-sm sm:text-sm opacity-40 font-normal px-2 leading-relaxed line-through">
-              ₹{selectedProduct.price}
+              ₹{products.price}
             </p>
             <span className="opacity-40 text-xs  xl:text-xl lg:text-sm  md:text-sm sm:text-sm font-normal">
               {" "}
               MRP
             </span>{" "}
             <p className=" text-xs xl:text-lg leading-relaxed lg:text-sm md:text-sm sm:text-sm font-bold px-2 text-red-400">
-              ({selectedProduct.discountPercentage}% off)
+              ({products.discountPercentage}% off)
             </p>
           </div>
           <div>
@@ -149,7 +148,7 @@ const ProductsDetail = () => {
               <label htmlFor="" className="text-teal-600 font-semibold">
                 In stock :{" "}
               </label>
-              {selectedProduct.stock}
+              {products.stock}
             </p>
           </div>
           <div className="text-teal-600 font-bold text-sm xl:text-xl lg:text-base md:text-sm sm:text-sm ">
@@ -161,7 +160,7 @@ const ProductsDetail = () => {
               className="text-[10px] xl:text-base  lg:text-sm md:text-xs sm:text-xs rounded-none sm:px-4  md:py-3 md:px-4 lg:h-16 font-bold bg-[#ff3e6c] border border-[#ff3e6c] text-white flex-1 text-center mr-3 w-32"
               onClick={addToCart}
             >
-              {cartItems.some((item) => item.id === selectedProduct.id) ? (
+              {cartItems.some((item) => item.id === products.id) ? (
                 <Link to="/cart" className="text-white">
                   GO TO CART <i className="fa-solid fa-arrow-right ml-1"></i>
                 </Link>
@@ -171,21 +170,21 @@ const ProductsDetail = () => {
             </button>
             <button
               className={`text-[10px] xl:text-base lg:text-sm  md:text-xs sm:text-xs  rounded-none py-3 sm:px-4 lg:h-16 font-bold bg-white border border-gray-700 text-black flex-1 text-center mr-3 w-full${
-                wishlist?.some((item) => item.id === selectedProduct.id)
+                wishlist?.some((item) => item.id === products.id)
                   ? "bg-gray-300"
                   : ""
               }`}
               onClick={(e) => {
-                whishlistbtn(selectedProduct.id, e);
+                whishlistbtn(products.id, e);
               }}
             >
-              {wishlist?.some((item) => item.id === selectedProduct.id) ? (
+              {wishlist?.some((item) => item.id === products.id) ? (
                 <i className="fas fa-heart text-red-400 mr-1"></i>
               ) : (
                 <i className="fa-regular fa-heart "></i>
               )}
               <label htmlFor="" className="font-semibold mx-2">
-                {wishlist?.some((item) => item.id === selectedProduct.id)
+                {wishlist?.some((item) => item.id === products.id)
                   ? "WISHLISTED"
                   : "WISHLIST"}
               </label>
