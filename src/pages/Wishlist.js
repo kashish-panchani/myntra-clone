@@ -75,7 +75,7 @@ const Wishlist = () => {
     }
   }, []);
 
-  return (
+  return (  
     <div className="overflow-hidden">
       <>
         {!isLoggedIn ? (
