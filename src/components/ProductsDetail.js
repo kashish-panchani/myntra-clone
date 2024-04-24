@@ -32,11 +32,9 @@ const ProductsDetail = () => {
   }, []);
 
   const addToCart = () => {
-    const isAlreadyInCart = cartItems.some(
-      (item) => item.id === products.id
-    );
+    const isAlreadyInCart = cartItems.some((item) => item.id === products.id);
     const maxQuantity = 10;
-    const productWithQuantity = { ...products, quantity: 1};
+    const productWithQuantity = { ...products, quantity: 1 };
     if (!isAlreadyInCart && cartItems.length < maxQuantity) {
       setCartItems([...cartItems, productWithQuantity]);
       setCount(count + 1);
@@ -155,7 +153,7 @@ const ProductsDetail = () => {
             inclusive of all taxes
           </div>
 
-          <div className="flex flex-row gap-1 w-60 sm:w-72  lg:w-96">
+          <div className="flex flex-row gap-1 w-60 sm:w-72 h-10 lg:w-96">
             <button
               className="text-[10px] xl:text-base  lg:text-sm md:text-xs sm:text-xs rounded-none sm:px-4  md:py-3 md:px-4 lg:h-16 font-bold bg-[#ff3e6c] border border-[#ff3e6c] text-white flex-1 text-center mr-3 w-32"
               onClick={addToCart}
@@ -168,27 +166,21 @@ const ProductsDetail = () => {
                 "ADD TO CART"
               )}
             </button>
-            <button
-              className={`text-[10px] xl:text-base lg:text-sm  md:text-xs sm:text-xs  rounded-none py-3 sm:px-4 lg:h-16 font-bold bg-white border border-gray-700 text-black flex-1 text-center mr-3 w-full${
-                wishlist?.some((item) => item.id === products.id)
-                  ? "bg-gray-300"
-                  : ""
-              }`}
-              onClick={(e) => {
-                whishlistbtn(products.id, e);
-              }}
-            >
-              {wishlist?.some((item) => item.id === products.id) ? (
-                <i className="fas fa-heart text-red-400 mr-1"></i>
-              ) : (
-                <i className="fa-regular fa-heart "></i>
-              )}
-              <label htmlFor="" className="font-semibold mx-2">
-                {wishlist?.some((item) => item.id === products.id)
-                  ? "WISHLISTED"
-                  : "WISHLIST"}
-              </label>
-            </button>
+
+            {wishlist?.some((item) => item.id === products.id) ? (
+              <div className="text-[10px] xl:text-base cursor-not-allowed flex justify-center items-center py-1   lg:text-sm md:text-xs sm:text-xs rounded-none sm:px-4  md:py-3 md:px-4 lg:h-16 font-bold  border flex-1 text-center mr-3 w-32">
+                <i className="fa fa-heart sm:text-base  text-rose-500"></i>
+                <span className=" ml-1 font-bold">WISHLISTED</span>
+              </div>
+            ) : (
+              <div
+                className="text-[10px] xl:text-base  flex justify-center items-center lg:text-sm md:text-xs sm:text-xs rounded-none sm:px-4  md:py-3 md:px-4 lg:h-16 font-bold  border flex-1 text-center mr-3 w-32"
+                onClick={(e) => whishlistbtn(products.id, e)}
+              >
+                <i className="fa-regular fa-heart sm:text-sm"></i>
+                <span className=" ml-1 font-bold">WISHLIST</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
