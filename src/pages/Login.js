@@ -36,7 +36,7 @@ const Login = () => {
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user")
-    localStorage.removeItem("wishlist")
+    // localStorage.removeItem("wishlist")
     setIsLoggedIn(false);
     success("Successfully logged out!");
     navigate("/login");
