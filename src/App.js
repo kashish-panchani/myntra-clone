@@ -11,11 +11,16 @@ import ErrorPage from "./pages/Error";
 import Category from "./components/Category";
 import Header from "./components/Header";
 import SearchProduct from "./components/SearchProduct";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
+
     <BrowserRouter>
       <Header />
+      <ToastContainer autoClose={2000} />
+     
       <Routes>
         <Route path="/" exact element={<HomePage />} />
         <Route path="/all" exact element={<Products />} />
@@ -31,7 +36,6 @@ const App = () => {
           element={<SearchProduct />}
         />
       </Routes>
-
       <Footer />
     </BrowserRouter>
   );

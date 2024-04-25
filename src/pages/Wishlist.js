@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import imagelogin from "../Images/login/login.png";
+import useToast from "../Customhook/useToast";
 const Wishlist = () => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { success, error } = useToast();
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
     if (savedWishlist) {
@@ -32,14 +33,7 @@ const Wishlist = () => {
     const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
     setWishlist(updatedWishlist);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-    toast.success("Item moved to cart successfully", {
-      style: {
-        width: "200px",
-        fontSize: "12px",
-        float: "right",
-        marginTop: "50px",
-      },
-    });
+    success("Item moved to cart successfully");
   };
   useEffect(() => {
     const savedCartItems = localStorage.getItem("cartItems");
@@ -55,14 +49,7 @@ const Wishlist = () => {
     e.stopPropagation();
     const updatedWishlist = wishlist.filter((item) => item.id !== productId);
     setWishlist(updatedWishlist);
-    toast.error("Removed from wishlist", {
-      style: {
-        width: "200px",
-        fontSize: "12px",
-        float: "right",
-        marginTop: "50px",
-      },
-    });
+    error("Removed from wishlist");
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
   };
 
@@ -75,7 +62,7 @@ const Wishlist = () => {
     }
   }, []);
 
-  return (  
+  return (
     <div className="overflow-hidden">
       <>
         {!isLoggedIn ? (

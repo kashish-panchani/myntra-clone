@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { settings } from "../Constants/header";
+import useToast from "../Customhook/useToast";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -14,6 +15,8 @@ const Products = () => {
   const [hoverSetProduct, setHoverSetProduct] = useState(null);
   const perPage = 30;
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const { success, error } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,7 +32,6 @@ const Products = () => {
     localStorage.getItem("isLoggedIn") === "true"
   );
 
-  const navigate = useNavigate();
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
@@ -52,6 +54,21 @@ const Products = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const updateWishlist = () => {
+      const savedWishlist = localStorage.getItem("wishlist");
+      if (savedWishlist) {
+        setWishlist(JSON.parse(savedWishlist));
+      }
+    };
+
+    window.addEventListener("storage", updateWishlist);
+
+    return () => {
+      window.removeEventListener("storage", updateWishlist);
+    };
+  }, []);
+
   const totalPages = Math.ceil(products.length / perPage);
 
   const handleNextPage = () => {
@@ -59,6 +76,7 @@ const Products = () => {
       setCurrentPage(currentPage + 1);
     }
   };
+
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -77,14 +95,7 @@ const Products = () => {
     if (isInWishlist) {
       const updatedWishlist = wishlist.filter((item) => item.id !== productId);
       setWishlist(updatedWishlist);
-      toast.error("Removed from wishlist", {
-        style: {
-          width: "200px",
-          fontSize: "12px",
-          float: "right",
-          marginTop: "50px",
-        },
-      });
+      error("Removed from wishlist");
 
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     } else {
@@ -93,14 +104,7 @@ const Products = () => {
       );
       if (updatedWishlist) {
         setWishlist([...wishlist, updatedWishlist]);
-        toast.success("Added to wishlist", {
-          style: {
-            width: "200px",
-            fontSize: "12px",
-            float: "right",
-            marginTop: "50px",
-          },
-        });
+        success("Added to wishlist");
         localStorage.setItem(
           "wishlist",
           JSON.stringify([...wishlist, updatedWishlist])
@@ -111,10 +115,10 @@ const Products = () => {
 
   const startIndex = (currentPage - 1) * perPage;
   const endIndex = currentPage * perPage;
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-
+  }, []); 
   return (
     <div className="sm:container sm:mx-auto pt-16 sm:pt-20 pb-10">
       {isMobile ? (

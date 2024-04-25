@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import picture from "../Images/login/pic.webp";
 import USERIMAGE from "../Images/login/profile.jpg";
+import useToast from "../Customhook/useToast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true"
   );
+  const { success, error } = useToast();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,42 +24,24 @@ const Login = () => {
     const validEmail = "kashish@gmail.com";
     const validPassword = "12345678";
     if (email === validEmail && password === validPassword) {
+      const user = { email: email, password: password };
       localStorage.setItem("isLoggedIn", "true");
-      toast.success("Successfully logged in!", {
-        style: {
-          width: "200px",
-          fontSize: "12px",
-          float: "right",
-          marginTop: "50px",
-        },
-      });
+      localStorage.setItem("user", JSON.stringify(user));
+      success("Successfully logged in!");
       navigate("/wishlist");
     } else {
-      toast.error("Incorrect email or password. Please try again.", {
-        style: {
-          width: "200px",
-          fontSize: "12px",
-          float: "right",
-          marginTop: "50px",
-        },
-      });
+      error("Incorrect email or password. Please try again.");
     }
   };
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user")
+    localStorage.removeItem("wishlist")
     setIsLoggedIn(false);
-    toast.success("Successfully logged out!", {
-      style: {
-        width: "200px",
-        fontSize: "12px",
-        float: "right",
-        marginTop: "50px",
-      },
-    });
-
+    success("Successfully logged out!");
     navigate("/login");
   };
-
+ 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -69,7 +53,7 @@ const Login = () => {
             <div className="flex flex-col items-center justify-center px-6 py-28 mx-auto">
               <div className=" bg-white  shadow dark:border md:mt-0 w-80 sm:w-96 xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <img src={picture} className="object-contain" />
-                <div className="p-3  space-y-4 md:space-y-6  sm:p-8">
+                <div className="p-3 space-y-4 md:space-y-6  sm:p-8">
                   <h1 className="sm:text-xl text-base font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Sign in to your account
                   </h1>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { headerlinks } from "../Constants/header";
+import menu from "../Images/menu.svg";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,7 +26,7 @@ const Header = () => {
       setCount(parsedCartItems.length);
       // console.clear();
     }
-  }, []);
+  }, [cartItems]); 
 
   return (
     <>
@@ -88,21 +89,7 @@ const Header = () => {
                     aria-controls="navbar-sticky"
                     aria-expanded={isMobileMenuOpen}
                   >
-                    <svg
-                      className="sm:w-5 sm:h-5 w-3 h-3"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 17 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M1 1h15M1 7h15M1 13h15"
-                      />
-                    </svg>
+                    <img src={menu} className="sm:w-5 sm:h-5 w-3 h-3" />
                   </button>
                 </div>
               </div>
@@ -113,7 +100,7 @@ const Header = () => {
                 id="navbar-sticky"
               >
                 <ul className="navbar flex flex-col p-4 xl:text-[14px] lg:text-[12px] md:text-[10px] mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-5 xl:space-x-7 lg:space-x-5 md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                  {headerlinks.map((el,index) => (
+                  {headerlinks.map((el, index) => (
                     <li key={index}>
                       <Link
                         to={el.url}

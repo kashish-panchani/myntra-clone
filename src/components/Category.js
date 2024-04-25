@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
-import { toast } from "react-toastify";
 import { settings } from "../Constants/header";
+import useToast from "../Customhook/useToast.js";
 
 const Category = () => {
   const { type } = useParams();
@@ -12,7 +12,7 @@ const Category = () => {
   const [isHoverSetProduct, setIsHoverSetProduct] = useState(false);
   const [filterCategoryProducts, setfilterCategoryProducts] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
+  const { success, error } = useToast();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -65,30 +65,16 @@ const Category = () => {
     if (isInWishlist) {
       const updatedWishlist = wishlist.filter((item) => item.id !== productId);
       setWishlist(updatedWishlist);
-      toast.error("Removed from wishlist", {
-        style: {
-          width: "200px",
-          fontSize: "12px",
-          float: "right",
-          marginTop: "50px",
-        },
-      });
+      error("Removed from wishlist");
 
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     } else {
       const updatedWishlist = products.find(
         (product) => product.id === productId
-      );
+      );  
       if (updatedWishlist) {
         setWishlist([...wishlist, updatedWishlist]);
-        toast.success("Added to wishlist", {
-          style: {
-            width: "200px",
-            fontSize: "12px",
-            float: "right",
-            marginTop: "50px",
-          },
-        });
+        success("Added to wishlist");
         localStorage.setItem(
           "wishlist",
           JSON.stringify([...wishlist, updatedWishlist])
@@ -109,7 +95,7 @@ const Category = () => {
                     key={product.id}
                     className="bg-white sm:rounded-lg hover:shadow-xl  shadow-lg overflow-hidden"
                   >
-                    <Link to={`/ProductsDetail/${product.id}`}>
+                    <Link to={`/Productsdetail/${product.id}`}>
                       <div className=" w-full h-32 sm:h-44">
                         <img
                           src={product.thumbnail}

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import useToast from "../Customhook/useToast";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [itemToRemove, setItemToRemove] = useState(null);
-
+  const { error } = useToast();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -44,14 +44,7 @@ const Cart = () => {
   const handleRemove = () => {
     const updatedCartItems = cartItems.filter((item) => item !== itemToRemove);
     setCartItems(updatedCartItems);
-    toast.error("Product removed from cart", {
-      style: {
-        width: "200px",
-        fontSize: "12px",
-        float: "right",
-        marginTop: "50px",
-      },
-    });
+    error("Product removed from cart");
     setItemToRemove(null);
   };
   const handleCancelRemove = () => {
@@ -60,7 +53,7 @@ const Cart = () => {
 
   return (
     <div>
-      <div className="container mx-auto xl:p-10 lg:p-12 md:p-10 sm:p-10 pt-7 sm:pt-0">
+      <div className="container mx-auto xl:p-10 lg:p-12 md:p-10 sm:p-10 pt-7">
         {cartItems.length === 0 ? (
           <div className=" text-center px-6">
             <div className="flex justify-center items-center">
@@ -93,7 +86,7 @@ const Cart = () => {
               <div className="rounded-lg md:w-2/3">
                 {cartItems.map((item, inx) => (
                   <div key={inx}>
-                    <div className="responsive flex justify-between  mb-1 sm:mb-6 border bg-white xl:p-7 lg:p-7 md:7 sm:p-7 p-5 shadow-md ">
+                    <div className="responsive flex justify-between  mb-1 sm:mb-6 border bg-white xl:p-7 lg:p-7 md:p-2 sm:p-2 p-5 shadow-md ">
                       <img
                         src={item.thumbnail}
                         alt="product-image"

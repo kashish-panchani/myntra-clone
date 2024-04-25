@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import useToast from "../Customhook/useToast";
 
 const ProductsDetail = () => {
   const { id } = useParams();
@@ -8,7 +9,7 @@ const ProductsDetail = () => {
   const [count, setCount] = useState(0);
   const [wishlist, setWishlist] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-
+  const { success, error } = useToast();
   const fetchProductDetails = async () => {
     try {
       const response = await fetch(`https://dummyjson.com/products/${id}`);
@@ -38,14 +39,7 @@ const ProductsDetail = () => {
     if (!isAlreadyInCart && cartItems.length < maxQuantity) {
       setCartItems([...cartItems, productWithQuantity]);
       setCount(count + 1);
-      toast.success("Item added to cart successfully", {
-        style: {
-          width: "200px",
-          fontSize: "12px",
-          float: "right",
-          marginTop: "50px",
-        },
-      });
+      success("Item added to cart successfully");
       localStorage.setItem(
         "cartItems",
         JSON.stringify([...cartItems, productWithQuantity])

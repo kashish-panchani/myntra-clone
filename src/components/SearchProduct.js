@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import ProductItems from "./ProductItems";
+import useToast from "../Customhook/useToast";
 
 const SearchProduct = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ const SearchProduct = () => {
   const [wishlist, setWishlist] = useState([]);
   const { searchQuery } = useParams();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
+  const { success, error } = useToast();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -64,14 +65,7 @@ const SearchProduct = () => {
     if (isInWishlist) {
       const updatedWishlist = wishlist.filter((item) => item.id !== productId);
       setWishlist(updatedWishlist);
-      toast.error("Removed from wishlist", {
-        style: {
-          width: "200px",
-          fontSize: "12px",
-          float: "right",
-          marginTop: "50px",
-        },
-      });
+      error("Removed from wishlist");
 
       localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
     } else {
@@ -80,14 +74,7 @@ const SearchProduct = () => {
       );
       if (updatedWishlist) {
         setWishlist([...wishlist, updatedWishlist]);
-        toast.success("Added to wishlist", {
-          style: {
-            width: "200px",
-            fontSize: "12px",
-            float: "right",
-            marginTop: "50px",
-          },
-        });
+        success("Added to wishlist");
         localStorage.setItem(
           "wishlist",
           JSON.stringify([...wishlist, updatedWishlist])
@@ -98,26 +85,24 @@ const SearchProduct = () => {
 
   return (
     <div>
-   
-        <div className="container mx-auto">
-          {filteredProducts.length === 0 ? (
-            <div className="text-center py-36  text-sm sm:text-2xl font-semibold">
-              No products found
-            </div>
-          ) : (
-            <ProductItems
-              filteredProducts={filteredProducts}
-              setIshover={setIshover}
-              setIsHoverSetProduct={setIsHoverSetProduct}
-              isHoverSetProduct={isHoverSetProduct}
-              isHover={isHover}
-              wishlist={wishlist}
-              whishlistbtn={whishlistbtn}
-              isMobile={isMobile}
-            />
-          )}
-        </div>
-      
+      <div className="container mx-auto">
+        {filteredProducts.length === 0 ? (
+          <div className="text-center py-36  text-sm sm:text-2xl font-semibold">
+            No products found
+          </div>
+        ) : (
+          <ProductItems
+            filteredProducts={filteredProducts}
+            setIshover={setIshover}
+            setIsHoverSetProduct={setIsHoverSetProduct}
+            isHoverSetProduct={isHoverSetProduct}
+            isHover={isHover}
+            wishlist={wishlist}
+            whishlistbtn={whishlistbtn}
+            isMobile={isMobile}
+          />
+        )}
+      </div>
     </div>
   );
 };
