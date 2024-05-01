@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Products from "./components/Products";
 import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
@@ -13,31 +13,28 @@ import Header from "./components/Header";
 import SearchProduct from "./components/SearchProduct";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
+import Register from "./pages/Register";
 
 const App = () => {
   return (
-
-    <BrowserRouter>
+    <>
       <Header />
-      <ToastContainer autoClose={2000} />
-     
+      <Toaster />
       <Routes>
-        <Route path="/" exact element={<HomePage />} />
-        <Route path="/all" exact element={<Products />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/cart" exact element={<Cart />} />
-        <Route path="/wishlist" exact element={<Wishlist />} />
-        <Route path="/productsdetail/:id" exact element={<ProductsDetail />} />
-        <Route path="/category/:type" exact element={<Category />} />
-        <Route path="/*" exact element={<ErrorPage />} />
-        <Route
-          path="/searchproduct/:searchQuery"
-          exact
-          element={<SearchProduct />}
-        />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/all" element={<Products />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/productsdetail/:id" element={<ProductsDetail />} />
+        <Route path="/category/:type" element={<Category />} />
+        <Route path="/*" element={<ErrorPage />} />
+        <Route path="/searchproduct/:searchQuery" element={<SearchProduct />} />
       </Routes>
       <Footer />
-    </BrowserRouter>
+    </>
   );
 };
 

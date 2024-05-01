@@ -1,32 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { headerlinks } from "../Constants/header";
+import { useCart } from "../components/CartContext";
 import menu from "../Images/menu.svg";
+import { headerlinks } from "../Constants/header";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [count, setCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItemsCount } = useCart();
   const location = useLocation();
-  const navigate = useNavigate();
-
+const navigate=useNavigate();
   const searchEnter = (e) => {
     if (e.key === "Enter") {
       setSearchQuery("");
+      
       navigate(`/searchproduct/${searchQuery}`);
     }
   };
 
   useEffect(() => {
-    const savedCartItems = localStorage.getItem("cartItems");
-    if (savedCartItems) {
-      const parsedCartItems = JSON.parse(savedCartItems);
-      setCartItems(parsedCartItems);
-      setCount(parsedCartItems.length);
-      // console.clear();
-    }
-  }, [cartItems]); 
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
@@ -78,7 +72,7 @@ const Header = () => {
                       >
                         <i className="fas fa-shopping-cart "></i>
                         <span className="absolute bottom-3 right-2 text-[8px] w-3 h-3 bg-red-500 text-white rounded-full  xl:w-4 xl:h-4 xl:bottom-5 xl:right-4  xl:text-[11px] sm:w-4 sm:h-4 sm:bottom-4 sm:right-3 sm:text-[11px]  lg:w-[13px] lg:h-[13px] lg:right-3 lg:text-[9px] lg:bottom-4 md:bottom-[12px] md:right-[7px] md:text-[8px] md:w-3 md:h-3 flex items-center justify-center ">
-                          {count}
+                          {cartItemsCount}
                         </span>
                       </Link>
                     </div>
@@ -100,7 +94,7 @@ const Header = () => {
                 id="navbar-sticky"
               >
                 <ul className="navbar flex flex-col p-4 xl:text-[14px] lg:text-[12px] md:text-[10px] mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-5 xl:space-x-7 lg:space-x-5 md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                  {headerlinks.map((el, index) => (
+                {headerlinks.map((el, index) => (
                     <li key={index}>
                       <Link
                         to={el.url}

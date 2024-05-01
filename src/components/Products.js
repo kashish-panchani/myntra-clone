@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import { toast } from "react-toastify";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { settings } from "../Constants/header";
@@ -14,7 +13,7 @@ const Products = () => {
   const [isHover, setIshover] = useState(false);
   const [hoverSetProduct, setHoverSetProduct] = useState(null);
   const perPage = 30;
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState( window.innerWidth < 768);
   const { success, error } = useToast();
   const navigate = useNavigate();
 
@@ -24,7 +23,7 @@ const Products = () => {
     };
     window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleResize); 
     };
   }, []);
 
@@ -80,7 +79,7 @@ const Products = () => {
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-    }
+    }  
   };
 
   const whishlistbtn = (productId, e) => {
@@ -128,7 +127,7 @@ const Products = () => {
               {products.slice(startIndex, endIndex).map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white sm:rounded-lg hover:shadow-xl  shadow-lg overflow-hidden"
+                  className="bg-white sm:rounded-lg hover:shadow-xl  shadow-sm overflow-hidden"
                 >
                   <Link to={`/ProductsDetail/${product.id}`}>
                     <div className=" w-full h-32 sm:h-44">

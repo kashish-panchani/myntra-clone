@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+
 import imagelogin from "../Images/login/login.png";
 import useToast from "../Customhook/useToast";
+import { useCart } from "../components/CartContext";
 const Wishlist = () => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { success, error } = useToast();
+  const { error } = useToast();
+  const { moveToCart } = useCart();
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
     if (savedWishlist) {
@@ -16,25 +18,14 @@ const Wishlist = () => {
   }, []);
 
   useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    setIsLoggedIn(isLoggedIn === "true");
+  }, []);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const moveToCart = (product, e) => {
-    e.stopPropagation();
-    const isInCart = cartItems.some((item) => item.id === product.id);
-    if (isInCart) {
-      const updatedCartItems = cartItems.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
-      );
-      setCartItems(updatedCartItems);
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
-    }
-    const updatedWishlist = wishlist.filter((item) => item.id !== product.id);
-    setWishlist(updatedWishlist);
-    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-    success("Item moved to cart successfully");
-  };
   useEffect(() => {
     const savedCartItems = localStorage.getItem("cartItems");
     if (savedCartItems) {
@@ -42,24 +33,22 @@ const Wishlist = () => {
       setCartItems(parsedCartItems);
     }
   }, []);
+
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
-  const removeFromWishlist = (productId, e) => {
-    e.stopPropagation();
+  const removeFromWishlist = (productId) => {
     const updatedWishlist = wishlist.filter((item) => item.id !== productId);
     setWishlist(updatedWishlist);
-    error("Removed from wishlist");
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
   };
-
+  const handleMoveToCart = (product) => {
+    removeFromWishlist(product.id);
+    moveToCart(product);
+  };
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn === "true") {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(isLoggedIn === "true");
   }, []);
 
   return (
@@ -146,7 +135,7 @@ const Wishlist = () => {
                         <a
                           href="#"
                           className="flex items-center justify-center border-t sm:border sm:bg-slate-900 px-5 py-3 sm:py-2.5  text-sm font-medium text-rose-500 sm:text-white  hover:sm:bg-gray-700 focus:outline-none focus:ring-4 sm:focus:ring-blue-300"
-                          onClick={(e) => moveToCart(product, e)}
+                          onClick={(e) => handleMoveToCart(product, e)}
                         >
                           Move to cart
                         </a>

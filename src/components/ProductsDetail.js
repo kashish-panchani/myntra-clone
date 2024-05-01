@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useCart } from "../components/CartContext";
 import useToast from "../Customhook/useToast";
 
 const ProductsDetail = () => {
   const { id } = useParams();
+  const { addToCart, cartItems } = useCart();
   const [products, setProducts] = useState(null);
-  const [count, setCount] = useState(0);
   const [wishlist, setWishlist] = useState([]);
-  const [cartItems, setCartItems] = useState([]);
-  const { success, error } = useToast();
+  const { success } = useToast();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
   const fetchProductDetails = async () => {
     try {
       const response = await fetch(`https://dummyjson.com/products/${id}`);
@@ -19,36 +21,22 @@ const ProductsDetail = () => {
       console.error("Error fetching product details:", error);
     }
   };
+
   useEffect(() => {
     fetchProductDetails();
   }, [id]);
 
   useEffect(() => {
-    const savedCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    setCartItems(savedCartItems);
-    setCount(savedCartItems.length);
-
     const savedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlist(savedWishlist);
   }, []);
 
-  const addToCart = () => {
-    const isAlreadyInCart = cartItems.some((item) => item.id === products.id);
-    const maxQuantity = 10;
-    const productWithQuantity = { ...products, quantity: 1 };
-    if (!isAlreadyInCart && cartItems.length < maxQuantity) {
-      setCartItems([...cartItems, productWithQuantity]);
-      setCount(count + 1);
-      success("Item added to cart successfully");
-      localStorage.setItem(
-        "cartItems",
-        JSON.stringify([...cartItems, productWithQuantity])
-      );
-    }
-  };
-
   const whishlistbtn = (productId, e) => {
     e.stopPropagation();
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
     const isInWishlist = wishlist.some((item) => item.id === productId);
     const updatedWishlist = isInWishlist
       ? wishlist.filter((item) => item.id !== productId)
@@ -67,7 +55,18 @@ const ProductsDetail = () => {
       }
     );
   };
-
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    setIsLoggedIn(isLoggedIn === "true");
+  }, []);
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (isLoggedIn === "true") {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -150,7 +149,10 @@ const ProductsDetail = () => {
           <div className="flex flex-row gap-1 w-60 sm:w-72 h-10 lg:w-96">
             <button
               className="text-[10px] xl:text-base  lg:text-sm md:text-xs sm:text-xs rounded-none sm:px-4  md:py-3 md:px-4 lg:h-16 font-bold bg-[#ff3e6c] border border-[#ff3e6c] text-white flex-1 text-center mr-3 w-32"
-              onClick={addToCart}
+              onClick={() => {
+                addToCart(products)
+               
+              }}
             >
               {cartItems.some((item) => item.id === products.id) ? (
                 <Link to="/cart" className="text-white">

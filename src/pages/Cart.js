@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useToast from "../Customhook/useToast";
+import { useCart } from "../components/CartContext";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [itemToRemove, setItemToRemove] = useState(null);
+  const [showClearModal, setShowClearModal] = useState(false);
   const { error } = useToast();
+  const { removeFromCart, removeAllCartItems } = useCart();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -17,6 +21,7 @@ const Cart = () => {
       setCartItems(parsedCartItems);
     }
   }, []);
+
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
@@ -27,9 +32,16 @@ const Cart = () => {
         ? { ...item, quantity: Math.max(item.quantity - 1, 1) }
         : item
     );
-    console.log("productId", productId);
     setCartItems(updatedCartItems);
   };
+  const handleClearCart = () => {
+    removeAllCartItems();
+    setShowClearModal(false);
+    error("All items removed from cart");
+    setCartItems([]);
+    localStorage.removeItem("cartItems");
+  };
+
   const increase = (productId) => {
     const updatedCartItems = cartItems.map((item) =>
       item.id === productId
@@ -44,17 +56,25 @@ const Cart = () => {
   const handleRemove = () => {
     const updatedCartItems = cartItems.filter((item) => item !== itemToRemove);
     setCartItems(updatedCartItems);
+    removeFromCart(itemToRemove);
     error("Product removed from cart");
     setItemToRemove(null);
   };
   const handleCancelRemove = () => {
     setItemToRemove(null);
   };
+  const openClearModal = () => {
+    setShowClearModal(true);
+  };
+  const closeClearModal = () => {
+    setShowClearModal(false);
+  };
 
   return (
     <div>
       <div className="container mx-auto xl:p-10 lg:p-12 md:p-10 sm:p-10 pt-7">
         {cartItems.length === 0 ? (
+        
           <div className=" text-center px-6">
             <div className="flex justify-center items-center">
               <img
@@ -81,12 +101,45 @@ const Cart = () => {
           </div>
         ) : (
           <>
-            <h1 className="my-5 sm:my-0 sm:mt-0 xl:mb-10 lg:mb-10 md:mb-10 sm:mb-10 text-center xl:text-2xl lg:text-xl md:text-lg sm:text-lg text-xs font-bold"></h1>
+            <div className="my-2 flex justify-end">
+              <button
+                className=" rounded-md mt-10 text-[10px] xl:mr-24 sm:text-[11px] text-slate-500 font-bold"
+                onClick={openClearModal}
+              >
+                CLEAR CART
+              </button>
+            </div>
+            {showClearModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white p-3 sm:p-6 w-60 sm:w-80 text-gray-500 rounded-lg shadow-lg">
+                  <p className="text-xs sm:text-base font-semibold mb-4">
+                    Are you sure you want to remove all items from cart.
+                  </p>
+                  <hr />
+                  <div className="flex justify-between items-center text-[10px] sm:text-xs mx-8 mt-2 font-semibold">
+                    <button
+                      className="text-red-600 rounded-lg"
+                      onClick={handleClearCart}
+                    >
+                      REMOVE
+                    </button>
+                    |
+                    <button
+                      className="text-black rounded-lg"
+                      onClick={closeClearModal}
+                    >
+                      CANCEL
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="mx-auto max-w-5xl justify-center md:flex md:space-x-6 xl:px-0">
               <div className="rounded-lg md:w-2/3">
                 {cartItems.map((item, inx) => (
                   <div key={inx}>
-                    <div className="responsive flex justify-between  mb-1 sm:mb-6 border bg-white xl:p-7 lg:p-7 md:p-2 sm:p-2 p-5 shadow-md ">
+                    <div className="responsive flex justify-between  mb-1 sm:mb-6 border bg-white sm:rounded-lg sm:p-7 p-5  ">
                       <img
                         src={item.thumbnail}
                         alt="product-image"
@@ -98,10 +151,7 @@ const Cart = () => {
                       <div className="ml-4 flex xl:w-[70%] lg:w-[70%] md:w-[70%] sm:w-[66%] w-[100%] sm:justify-between">
                         <div className="mt-6 sm:mt-0">
                           <Link to={`/productsdetail/${item.id}`}>
-                            <h2
-                              className="text-[12px] xl:text-lg lg:text-base md:text-[14px] sm:text-[13px] font-bold text-gray-900"
-                              F
-                            >
+                            <h2 className="text-[12px] xl:text-lg lg:text-base md:text-[14px] sm:text-[13px] font-bold text-gray-900">
                               {item.title}
                             </h2>
                           </Link>
@@ -164,8 +214,20 @@ const Cart = () => {
                     </div>
                   </div>
                 ))}
+                    <Link to="/wishlist">
+                      <div className="border sm:rounded-lg text-xs sm:text-sm p-4 hover:underline flex justify-between items-center font-semibold">
+                        <div className="flex">
+                          <i className="fa-regular fa-bookmark mr-2 text-sm"></i>
+                          <h1> Add More From Wishlist</h1>
+                        </div>
+
+                        <div>
+                          <i className="fa-solid fa-greater-than text-xs"></i>
+                        </div>
+                      </div>
+                    </Link>
               </div>
-              <div className=" my-2 sm:my-0 sm:mt-6 h-full sm:rounded-lg border bg-white py-6 px-4 shadow-md md:mt-0 md:w-1/3">
+              <div className=" my-2 sm:my-0 sm:mt-6 h-full sm:rounded-lg border bg-white py-6 px-4  md:mt-0 md:w-1/3">
                 <div className="mb-2 flex justify-between">
                   <p className="text-gray-700  font-bold">Subtotal</p>
                   <p className="text-gray-700"></p>₹

@@ -26,7 +26,7 @@ const ProductItems = (props) => {
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="bg-white sm:rounded-lg hover:shadow-xl  shadow-lg overflow-hidden"
+                className="bg-white sm:rounded-lg hover:shadow-xl  shadow-sm  overflow-hidden"
               >
                 <Link to={`/ProductsDetail/${product.id}`}>
                   <div className=" w-full h-32 sm:h-44">

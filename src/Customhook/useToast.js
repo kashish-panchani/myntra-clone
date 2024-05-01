@@ -1,25 +1,12 @@
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
+
 const useToast = () => {
   const success = (msg) => {
-    toast.success(msg, {
-      style: {
-        width: "200px",
-        fontSize: "12px",
-        float: "right",
-        marginTop: "50px",
-      },
-    });
+    toast.success(msg);
   };
 
   const error = (msg) => {
-    toast.error(msg, {
-      style: {
-        width: "200px",
-        fontSize: "12px",
-        float: "right",
-        marginTop: "50px",
-      },
-    });
+    toast.error(msg);
   };
 
   return {
