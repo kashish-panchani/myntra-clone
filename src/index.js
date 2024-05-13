@@ -9,12 +9,12 @@ import App from "./App";
 import { CartProvider } from "./components/CartContext";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
     <BrowserRouter> {/* Wrap App with BrowserRouter here */}
       <CartProvider>
         <App />
       </CartProvider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </>,
   document.getElementById("root")
 );

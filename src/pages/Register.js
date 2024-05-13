@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import picture from "../Images/login/pic.webp";
 import USERIMAGE from "../Images/login/profile.jpg";
-import useToast from "../Customhook/useToast";
+import useToast from "../hook/useToast";
 
 const Register = () => {
   const [email, setEmail] = useState("");

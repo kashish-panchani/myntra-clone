@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { settings } from "../Constants/header";
-import useToast from "../Customhook/useToast";
+import useToast from "../hook/useToast";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -119,7 +119,7 @@ const Products = () => {
     window.scrollTo(0, 0);
   }, []); 
   return (
-    <div className="sm:container sm:mx-auto pt-16 sm:pt-20 pb-10">
+    <div className="sm:container sm:mx-auto pt-16 sm:pt-32 pb-10">
       {isMobile ? (
         <section className="py-0">
           <div className="container">
@@ -129,7 +129,7 @@ const Products = () => {
                   key={product.id}
                   className="bg-white sm:rounded-lg hover:shadow-xl  shadow-sm overflow-hidden"
                 >
-                  <Link to={`/ProductsDetail/${product.id}`}>
+                  <Link to={`/ProductsDetail/${product.id}`} target="_blank">
                     <div className=" w-full h-32 sm:h-44">
                       <img
                         src={product.thumbnail}

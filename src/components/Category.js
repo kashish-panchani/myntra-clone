@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { settings } from "../Constants/header";
-import useToast from "../Customhook/useToast.js";
+import useToast from "../hook/useToast.js";
 
 const Category = () => {
   const { type } = useParams();
@@ -13,6 +13,11 @@ const Category = () => {
   const [filterCategoryProducts, setfilterCategoryProducts] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const { success, error } = useToast();
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+  
+  const navigate = useNavigate();
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -22,12 +27,6 @@ const Category = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true"
-  );
-
-  const navigate = useNavigate();
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
@@ -85,7 +84,7 @@ const Category = () => {
 
   return (
     <>
-      <div className="sm:container sm:mx-auto pt-16 sm:pt-20 pb-10">
+      <div className="sm:container sm:mx-auto pt-16 sm:pt-32 pb-10">
         {isMobile ? (
           <section className="py-0">
             <div className="container">
@@ -129,7 +128,7 @@ const Category = () => {
                             ({product.discountPercentage}% off)
                           </span>
                         </div>
-                        {/* Wishlist button */}
+                        {/* Wishlist button for mobile*/} 
                         <div className="rounded-full cursor-pointer text-center px-1">
                           {wishlist?.some((item) => item.id === product.id) ? (
                             <div className=" flex p-1 justify-center items-center w-full cursor-not-allowed opacity-50">

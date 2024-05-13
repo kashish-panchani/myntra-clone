@@ -4,7 +4,8 @@ import Slider from "react-slick";
 import { settings } from "../Constants/header";
 
 const ProductItems = (props) => {
-  const {isMobile,
+  const {
+    isMobile,
     filteredProducts,
     setIshover,
     setIsHoverSetProduct,
@@ -18,7 +19,7 @@ const ProductItems = (props) => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="sm:container sm:mx-auto pt-16 sm:pt-20 pb-10">
+    <div className="sm:container sm:mx-auto pt-16 sm:pt-32 pb-10">
     {isMobile ? (
       <section className="py-0">
         <div className="container">
@@ -29,7 +30,7 @@ const ProductItems = (props) => {
                 className="bg-white sm:rounded-lg hover:shadow-xl  shadow-sm  overflow-hidden"
               >
                 <Link to={`/ProductsDetail/${product.id}`}>
-                  <div className=" w-full h-32 sm:h-44">
+                  <div className="w-full h-32 sm:h-44">
                     <img
                       src={product.thumbnail}
                       alt={product.title}
@@ -62,7 +63,7 @@ const ProductItems = (props) => {
                         ({product.discountPercentage}% off)
                       </span>
                     </div>
-                    {/* Wishlist button */}
+                    {/* Wishlist button FOR MOBILE*/}
                     <div className="rounded-full cursor-pointer text-center px-1">
                       {wishlist?.some((item) => item.id === product.id) ? (
                         <div className=" flex p-1 justify-center items-center w-full cursor-not-allowed opacity-50">
@@ -105,7 +106,7 @@ const ProductItems = (props) => {
                   <Slider {...settings} className="h-32 sm:h-44">
                     {product.images.map((image, index) => (
                       <div key={index}>
-                        <img
+                        <img 
                           src={image}
                           alt={`Product ${index}`}
                           className="w-full h-32 sm:h-44 object-contain"
@@ -146,7 +147,7 @@ const ProductItems = (props) => {
                   )}
                 </div>
 
-                <div className="flex justify-start text-xs py-3 text-gray-600">
+                <div className="flex justify-1start text-xs py-3 text-gray-600">
                   <span>Category: {product.category}</span>
                 </div>
                 <div className="flex justify-between items-center">

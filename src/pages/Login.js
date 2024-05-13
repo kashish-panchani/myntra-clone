@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import picture from "../Images/login/pic.webp";
 import USERIMAGE from "../Images/login/profile.jpg";
-import useToast from "../Customhook/useToast";
+import useToast from "../hook/useToast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -46,7 +46,7 @@ const Login = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = () => {                      
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("user");
     localStorage.removeItem("wishlist");

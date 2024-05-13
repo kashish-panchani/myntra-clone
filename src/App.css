@@ -70,6 +70,6 @@ img {
   height: auto;
 }
 
-.abc::placeholder {
-  text-align: center;
+.custom-checkbox.checked {
+  background-color: pink;
 }

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import imagelogin from "../Images/login/login.png";
-import useToast from "../Customhook/useToast";
 import { useCart } from "../components/CartContext";
 const Wishlist = () => {
   const [cartItems, setCartItems] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { error } = useToast();
   const { moveToCart } = useCart();
   useEffect(() => {
     const savedWishlist = localStorage.getItem("wishlist");
@@ -76,9 +73,21 @@ const Wishlist = () => {
           </div>
         ) : (
           <div className="pb-10 pt-20  sm:pb-0 sm:container sm:mx-auto">
+            <div className="mt-2 sm:ml-7 ml-4 sm:mt-8">
+              <Link to="/">
+                <i class="fa-solid fa-arrow-left  sm:text-base  text-xs mr-2"></i>
+
+                <label
+                  htmlFor="selectAll"
+                  className="ml-1 sm:text-base text-xs text-slate-500 font-bold"
+                >
+                  Back
+                </label>
+              </Link>
+            </div>
             {wishlist.length ? (
               <>
-                <div className="sm:container  my-5 sm:my-0   pl-4 sm:mt-16  sm:pl-16 sm:mx-auto font-bold text-xs sm:text-base">
+                <div className="sm:container  my-5 sm:my-0   pl-4 sm:mt-16  sm:pl-6 sm:mx-auto font-bold text-xs sm:text-base">
                   My Wishlist{" "}
                   <span className="font-normal ">{wishlist.length} items</span>
                 </div>

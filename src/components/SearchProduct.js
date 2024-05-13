@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProductItems from "./ProductItems";
-import useToast from "../Customhook/useToast";
+import useToast from "../hook/useToast";
 
 const SearchProduct = () => {
   const [products, setProducts] = useState([]);

@@ -9,15 +9,14 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { cartItemsCount } = useCart();
   const location = useLocation();
-const navigate=useNavigate();
+  const navigate = useNavigate();
   const searchEnter = (e) => {
     if (e.key === "Enter") {
       setSearchQuery("");
-      
       navigate(`/searchproduct/${searchQuery}`);
     }
   };
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -94,7 +93,7 @@ const navigate=useNavigate();
                 id="navbar-sticky"
               >
                 <ul className="navbar flex flex-col p-4 xl:text-[14px] lg:text-[12px] md:text-[10px] mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-5 xl:space-x-7 lg:space-x-5 md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                {headerlinks.map((el, index) => (
+                  {headerlinks.map((el, index) => (
                     <li key={index}>
                       <Link
                         to={el.url}

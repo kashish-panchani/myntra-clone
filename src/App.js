@@ -11,11 +11,10 @@ import ErrorPage from "./pages/Error";
 import Category from "./components/Category";
 import Header from "./components/Header";
 import SearchProduct from "./components/SearchProduct";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "react-hot-toast";
 import Register from "./pages/Register";
-
+import "./App.css"
 const App = () => {
   return (
     <>
@@ -33,7 +32,7 @@ const App = () => {
         <Route path="/*" element={<ErrorPage />} />
         <Route path="/searchproduct/:searchQuery" element={<SearchProduct />} />
       </Routes>
-      <Footer />
+      <Footer /> 
     </>
   );
 };
