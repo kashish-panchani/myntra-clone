@@ -12,11 +12,15 @@ const Category = () => {
   const [isHoverSetProduct, setIsHoverSetProduct] = useState(false);
   const [filterCategoryProducts, setfilterCategoryProducts] = useState([]);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [sortedProduct, setSortedProduct] = useState(null);
+  const [selectedSortOption, setSelectedSortOption] = useState("default");
+
   const { success, error } = useToast();
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     localStorage.getItem("isLoggedIn") === "true"
   );
-  
+
   const navigate = useNavigate();
   useEffect(() => {
     const handleResize = () => {
@@ -27,6 +31,58 @@ const Category = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    sortedProducts("default");
+  }, [type]);
+  useEffect(() => {
+    if (filterCategoryProducts.length > 0) {
+      setSortedProduct([...filterCategoryProducts]);
+    }
+  }, [filterCategoryProducts]);
+  const sortedProducts = (value) => {
+    setSelectedSortOption(value);
+    switch (value) {
+      case "better_discount":
+        setSortedProduct(
+          [...filterCategoryProducts].sort(
+            (a, b) =>
+              b.price -
+              (b.price * b.discountPercentage) / 100 -
+              (a.price - (a.price * a.discountPercentage) / 100)
+          )
+        );
+        break;
+      case "price_high_to_low":
+        setSortedProduct(
+          [...filterCategoryProducts].sort(
+            (a, b) =>
+              b.price -
+              (b.price * b.discountPercentage) / 100 -
+              (a.price - (a.price * a.discountPercentage) / 100)
+          )
+        );
+        break;
+      case "price_low_to_high":
+        setSortedProduct(
+          [...filterCategoryProducts].sort(
+            (a, b) =>
+              a.price -
+              (a.price * a.discountPercentage) / 100 -
+              (b.price - (b.price * b.discountPercentage) / 100)
+          )
+        );
+        break;
+      case "customer_rating":
+        setSortedProduct(
+          [...filterCategoryProducts].sort((a, b) => b.rating - a.rating)
+        );
+        break;
+      default:
+        setSortedProduct([...filterCategoryProducts]);
+        break;
+    }
+  };
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
@@ -70,7 +126,7 @@ const Category = () => {
     } else {
       const updatedWishlist = products.find(
         (product) => product.id === productId
-      );  
+      );
       if (updatedWishlist) {
         setWishlist([...wishlist, updatedWishlist]);
         success("Added to wishlist");
@@ -84,12 +140,30 @@ const Category = () => {
 
   return (
     <>
-      <div className="sm:container sm:mx-auto pt-16 sm:pt-32 pb-10">
+      <div className="sm:container sm:mx-auto pt-16 sm:pt-20 pb-10">
+        <div className="flex justify-end">
+          <div className="border border-slate-200 sm:mb-8 mr-2 m-2">
+            <label className="p-2 text-xs sm:text-[13px] text-gray-500 ">
+              Sort by:
+            </label>
+            <select
+              className="p-2 w-[245px] font-bold text-xs text-gray-500 sm:text-[13px] sm:w-[12rem] outline-none bg-white"
+              onChange={(e) => sortedProducts(e.target.value)}
+              value={selectedSortOption}
+            >
+              <option value="default">Recommended</option>
+              <option value="better_discount">Better Discount</option>
+              <option value="price_high_to_low">Price: High To Low</option>
+              <option value="price_low_to_high">Price: Low To High</option>
+              <option value="customer_rating">Customer Rating</option>
+            </select>
+          </div>
+        </div>
         {isMobile ? (
           <section className="py-0">
             <div className="container">
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-4 lg:gap-4 md:gap-4 sm:gap-2 ">
-                {filterCategoryProducts.map((product) => (
+                {sortedProduct?.map((product) => (
                   <div
                     key={product.id}
                     className="bg-white sm:rounded-lg hover:shadow-xl  shadow-sm  overflow-hidden"
@@ -128,7 +202,7 @@ const Category = () => {
                             ({product.discountPercentage}% off)
                           </span>
                         </div>
-                        {/* Wishlist button for mobile*/} 
+                        {/* Wishlist button for mobile*/}
                         <div className="rounded-full cursor-pointer text-center px-1">
                           {wishlist?.some((item) => item.id === product.id) ? (
                             <div className=" flex p-1 justify-center items-center w-full cursor-not-allowed opacity-50">
@@ -152,7 +226,7 @@ const Category = () => {
           </section>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-4">
-            {filterCategoryProducts.map((product) => (
+            {sortedProduct?.map((product) => (
               <div
                 key={product.id}
                 className="sm:p-0 bg-white sm:rounded-lg hover:shadow-xl overflow-hidden"
