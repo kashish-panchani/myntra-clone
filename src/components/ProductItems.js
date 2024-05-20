@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import { settings } from "../Constants/header";
+import { settings } from "../Constants/ProductSlider";
 
 const ProductItems = (props) => {
   const {
@@ -9,7 +9,7 @@ const ProductItems = (props) => {
     filteredProducts,
     setIshover,
     setIsHoverSetProduct,
-    isHoverSetProduct,
+     isHoverSetProduct,
     isHover,
     wishlist,
     whishlistbtn,
@@ -66,7 +66,7 @@ const ProductItems = (props) => {
                     {/* Wishlist button FOR MOBILE*/}
                     <div className="rounded-full cursor-pointer text-center px-1">
                       {wishlist?.some((item) => item.id === product.id) ? (
-                        <div className=" flex p-1 justify-center items-center w-full cursor-not-allowed opacity-50">
+                        <div className=" flex p-1 justify-center items-center w-full">
                           <i className="fa fa-heart text-sm text-rose-500"></i>
                         </div>
                       ) : (
@@ -128,7 +128,7 @@ const ProductItems = (props) => {
               <div className="p-2 sm:p-4">
                 <div className="rounded-full cursor-pointer text-center px-1">
                   {wishlist?.some((item) => item.id === product.id) ? (
-                    <div className="border flex px-20 p-1 justify-center items-center w-full cursor-not-allowed opacity-50">
+                    <div className="border flex px-20 p-1 justify-center items-center w-full">
                       <i className="fa fa-heart text-sm text-rose-500"></i>
                       <span className="text-[10px] ml-1 font-bold">
                         WISHLISTED

@@ -19,13 +19,13 @@ const Register = () => {
     setIsLoggedIn(loggedIn);
   }, []);
 
-const handleRegister = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     if (!email || !password || !uname) {
       error("Please fill in all the details.");
-      return; 
+      return;
     }
-    
+
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const isExistingUser = users.some((user) => user.email === email);
     if (isExistingUser) {
@@ -37,14 +37,13 @@ const handleRegister = (e) => {
         email: email,
         password: password,
       };
-  
+
       users.push(user);
       localStorage.setItem("users", JSON.stringify(users));
       success("Successfully registered!");
       navigate("/login");
     }
   };
-  
 
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
@@ -68,7 +67,7 @@ const handleRegister = (e) => {
                 <img src={picture} className="object-contain" />
                 <div className="p-3 space-y-4 md:space-y-6  sm:p-8">
                   <h1 className="sm:text-xl text-base font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                  Sign up your account
+                    Sign up your account
                   </h1>
                   <form
                     onSubmit={handleRegister}
@@ -134,7 +133,7 @@ const handleRegister = (e) => {
                       type="submit"
                       className="w-full border  text-white bg-rose-500  focus:outline-none font-medium rounded-lg text-sm sm:text-md px-5 py-2.5 text-center "
                     >
-                       Sign up
+                      Sign up
                     </button>
                     <div className="flex justify-center items-center">
                       <label className="text-sm">

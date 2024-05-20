@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
-import { settings } from "../Constants/header";
+import { settings } from "../Constants/ProductSlider.js";
 import useToast from "../hook/useToast.js";
 
 const Category = () => {
@@ -147,7 +147,7 @@ const Category = () => {
               Sort by:
             </label>
             <select
-              className="p-2 w-[245px] font-bold text-xs text-gray-500 sm:text-[13px] sm:w-[12rem] outline-none bg-white"
+              className="p-[10px] sm:p-2 w-[245px] font-bold text-xs text-gray-500 sm:text-[13px] sm:w-[12rem] outline-none bg-white"
               onChange={(e) => sortedProducts(e.target.value)}
               value={selectedSortOption}
             >
@@ -205,7 +205,7 @@ const Category = () => {
                         {/* Wishlist button for mobile*/}
                         <div className="rounded-full cursor-pointer text-center px-1">
                           {wishlist?.some((item) => item.id === product.id) ? (
-                            <div className=" flex p-1 justify-center items-center w-full cursor-not-allowed opacity-50">
+                            <div className=" flex p-1 justify-center items-center w-full ">
                               <i className="fa fa-heart text-sm text-rose-500"></i>
                             </div>
                           ) : (
@@ -267,7 +267,7 @@ const Category = () => {
                   <div className="p-2 sm:p-4">
                     <div className="rounded-full cursor-pointer text-center px-1">
                       {wishlist?.some((item) => item.id === product.id) ? (
-                        <div className="border flex px-20 p-1 justify-center items-center w-full cursor-not-allowed opacity-50">
+                        <div className="border flex px-20 p-1 justify-center items-center w-full">
                           <i className="fa fa-heart text-sm text-rose-500"></i>
                           <span className="text-[10px] ml-1 font-bold">
                             WISHLISTED

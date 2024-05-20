@@ -10,15 +10,17 @@ const Cart = () => {
   const [showClearModal, setShowClearModal] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const { success } = useToast();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  console.log("cartItems:::", cartItems);
+
   useEffect(() => {
     const count = cartItems.filter((item) => item.checked).length;
     setSelectedItemCount(count);
     setSelectAll(count === cartItems.length);
-  }, [cartItems, setSelectedItemCount]);
+  }, [cartItems, setSelectedItemCount]); 
+  
   useEffect(() => {
     const savedCartItems = localStorage.getItem("cartItems");
     if (savedCartItems) {
@@ -30,8 +32,6 @@ const Cart = () => {
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
-
-  console.log("cartItems", cartItems);
 
   const decrease = (productId) => {
     const updatedCartItems = cartItems.map((item) =>
@@ -78,7 +78,7 @@ const Cart = () => {
     const updatedCartItems = cartItems.map((item) =>
       item.id === productId
         ? { ...item, quantity: Math.min(item.quantity + 1, 10) }
-        : item
+        : item        
     );
     setCartItems(updatedCartItems);
   };
@@ -103,11 +103,8 @@ const Cart = () => {
   const closeClearModal = () => {
     setShowClearModal(false);
   };
-  const goback = () => {
-    window.history.back();
-  };
   return (
-    <div className="container mx-auto xl:p-10 lg:p-12 md:p-10 sm:p-10 pt-7">
+    <div className="container mx-auto xl:p-10 lg:p-12 md:p-10 sm:p-10 py-16">
       {cartItems.length === 0 ? (
         <div className=" text-center px-6">
           <div className="flex justify-center items-center">
@@ -135,12 +132,12 @@ const Cart = () => {
         </div>
       ) : (
         <>
-          <div className="mt-14 ml-2 sm:ml-0 sm:mt-20">
+          <div
+            className="mt-8
+           ml-2 sm:ml-0 sm:mt-20"
+          >
             <Link to="/">
-              <i
-                class="fa-solid fa-arrow-left  sm:text-base  text-xs mr-1"
-
-              ></i>
+              <i class="fa-solid fa-arrow-left  sm:text-base  text-xs mr-1"></i>
 
               <label
                 htmlFor="selectAll"
@@ -150,22 +147,23 @@ const Cart = () => {
               </label>
             </Link>
           </div>
-          <div className="my-7 flex justify-between">
-            <div className="xl:ml-[110px] sm:ml-4 ml-2">
+          <div className="my-7 flex justify-between items-center">
+            <div className="flex xl:ml-[110px] sm:ml-4 ml-2">
               <input
                 type="checkbox"
                 checked={selectAll}
                 onChange={handleCheckboxChange}
+                className="cursor-pointer"
               />
               <label
                 htmlFor="selectAll"
-                className="ml-1 text-[10px] sm:text-sm text-slate-500 font-bold"
+                className="ml-1 text-[10px] sm:text-xs text-slate-500 font-bold"
               >
                 {selectedItemCount}/{cartItems.length} ITEMS SELECTED
               </label>
             </div>
             <button
-              className="rounded-md xl:mr-24 text-[10px] mr-3 sm:text-[11px] text-slate-500 font-bold"
+              className="rounded-md xl:mr-24 mr-3 text-[10px] sm:text-xs text-slate-500 font-bold"
               onClick={openClearModal}
               disabled={selectedItemCount === 0}
             >
@@ -208,7 +206,7 @@ const Cart = () => {
                       type="checkbox"
                       checked={item.checked}
                       onChange={() => handleItemCheckboxChange(item.id)}
-                      className="absolute mt-5 sm:mt-0 sm:p-1 custom-checkbox"
+                      className="absolute mt-5 sm:mt-0 sm:p-1 cursor-pointer"
                     />
                     <img
                       src={item.thumbnail}
@@ -249,7 +247,9 @@ const Cart = () => {
                         <div className="flex items-center mt-2 border-gray-100">
                           <span
                             className={`border bg-slate-200 w-3 h-4 text-[10px] px-1 xl:px-2 xl:w-6 xl:h-6 xl:text-sm lg:w-5 lg:h-5 lg:px-2  lg:text-[13px] md:w-4 md:h-4 md:px-1 md:text-[10px] sm:w-3 sm:h-5 sm:px-2 sm:text-[12px] hover:bg-slate-100  ${
-                              item.quantity <= 1 ? "cursor-not-allowed" : ""
+                              item.quantity <= 1
+                                ? "cursor-not-allowed"
+                                : "cursor-pointer"
                             }`}
                             disabled={item.quantity <= 1}
                             onClick={() => decrease(item.id)}
@@ -262,7 +262,9 @@ const Cart = () => {
                           </span>
                           <span
                             className={`border bg-slate-200 w-3 h-4 text-[10px] px hover:bg-slate-100 xl:px-1 xl:w-6 xl:text-sm xl:h-6 lg:w-5 lg:h-5 lg:px-1  lg:text-[13px]  md:w-4 md:h-4 md:px-1 md:text-[10px] sm:w-4 sm:h-5 sm:px-1 sm:text-[12px]   ${
-                              item.quantity >= 10 ? "cursor-not-allowed" : ""
+                              item.quantity >= 10
+                                ? "cursor-not-allowed"
+                                : "cursor-pointer"
                             }`}
                             disabled={item.quantity >= 10}
                             onClick={() => increase(item.id)}

@@ -66,7 +66,7 @@ function Footer() {
                 <img
                   src="../myntralogo.png"
                   alt="Amazon Logo"
-                  className="h-10 sm:h-16 mr-2 "
+                  className="h-10 sm:h-16  mr-2  object-contain "
                 />
               </Link>
             </div>

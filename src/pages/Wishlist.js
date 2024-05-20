@@ -52,8 +52,8 @@ const Wishlist = () => {
     <div className="overflow-hidden">
       <>
         {!isLoggedIn ? (
-          <div className="flex flex-col items-center justify-center py-10 sm:py-32">
-            <h1 className="sm:text-xl font-bold mb-4">PLEASE LOG IN</h1>
+          <div className="flex flex-col items-center justify-center py-28 sm:py-32">
+            <h1 className="sm:text-xl text-sm font-bold mb-4">PLEASE LOG IN</h1>
             <p className="text-gray-400 sm:text-lg  text-xs ">
               Login to view items in your wishlist.
             </p>
@@ -61,7 +61,7 @@ const Wishlist = () => {
               <img
                 src={imagelogin}
                 alt="PLEASELOGIN"
-                className="sm:h-24 h-16  "
+                className="sm:h-24 h-16 sm:w-24 w-16 "
               />
             </div>
             <Link
@@ -155,7 +155,7 @@ const Wishlist = () => {
               </>
             ) : (
               <div>
-                <h1 className="pt-36 flex justify-center items-center font-bold text-gray-700 text-base xl:text-2xl md:text-xl sm:text-lg">
+                <h1 className="pt-14 flex justify-center items-center font-bold text-gray-700 text-sm xl:text-2xl md:text-xl sm:text-lg">
                   YOUR WISHLIST IS EMPTY
                 </h1>
                 <p className="flex justify-center items-center text-sm sm:text-base md:text-lg xl:text-xl  text-gray-400 py-5 px-10  ">

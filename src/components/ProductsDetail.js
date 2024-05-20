@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useCart } from "../components/CartContext";
 import Slider from "react-slick";
-import { settings } from "../Constants/header";
+import { settings } from "../Constants/ProductSlider";
 
 const ProductsDetail = () => {
   const { id } = useParams();
@@ -11,7 +11,7 @@ const ProductsDetail = () => {
   const [products, setProducts] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 640); // Determine if mobile initially
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640); 
   const navigate = useNavigate();
 
   const fetchProductDetails = async () => {
@@ -72,15 +72,6 @@ const ProductsDetail = () => {
   }, []);
 
   useEffect(() => {
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (isLoggedIn === "true") {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -92,20 +83,20 @@ const ProductsDetail = () => {
     <>
       <div className="container mx-auto py-20 block md:flex md:justify-center">
         <div className="flex justify-center items-center w-full">
-          <div className="mt-16 sm:ml-14 ml-4  sm:mt-24 absolute top-0 left-0">
+          <div className="mt-16 sm:ml-14 ml-4 sm:text-base text-xs sm:mt-24 absolute top-0 left-0">
             <Link to="/">
-              <i class="fa-solid fa-arrow-left  sm:text-base  text-xs mr-2"></i>
+              <i class="fa-solid fa-arrow-left  mr-2"></i>
 
               <label
                 htmlFor="selectAll"
-                className="ml-1 sm:text-base text-xs text-slate-500 font-bold"
+                className="ml-1 text-slate-500 font-bold"
               >
                 Back
               </label>
             </Link>
           </div>
-          <div className="my-12 flex-wrap grid xl:grid-cols-2 sm:mt-16 md:grid-cols-2 md:p-0 gap-2">
-            {isMobile ? ( // Conditionally render Slider if isMobile is true
+          <div className="my-12 flex-wrap grid sm:mt-16 md:grid-cols-2 md:p-0 gap-2">
+            {isMobile ? (
               <div className="h-[147px] sm:h-[194px] overflow-hidden">
                 <Slider {...settings} className="h-32 sm:h-44">
                   {products.images.map((image, index) => (
@@ -120,7 +111,6 @@ const ProductsDetail = () => {
                 </Slider>
               </div>
             ) : (
-              // Otherwise, show a single image
               products.images.map((image, index) => (
                 <div
                   key={index}
@@ -135,7 +125,6 @@ const ProductsDetail = () => {
               ))
             )}
           </div>
-    
         </div>
 
         <div className="flex flex-col px-4 sm:px-16 gap-3 xl:gap-5 lg:gap-4 md:gap-2 sm:gap-3 md:px-0 py-5 md:py-20 xl:w-2/3  md:w-[41%]">

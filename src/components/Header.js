@@ -16,7 +16,7 @@ const Header = () => {
       navigate(`/searchproduct/${searchQuery}`);
     }
   };
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -33,23 +33,25 @@ const Header = () => {
               >
                 <img
                   src="../myntralogo.png"
-                  className="h-8 xl:h-14 xl:w-22 lg:h-[40px] md:h-[32px] sm:h-[40px]"
+                  className="h-8 w-14 xl:h-14 xl:w-24 lg:h-[40px] md:h-[32px] sm:h-[40px] object-contain"
                   alt="myntra Logo"
                 />
               </Link>
               <div className="flex justify-center items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <div className="flex items-center justify-center ">
-                  <input
-                    type="text"
-                    placeholder="Search For Products..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={searchEnter}
-                    className="h-7 sm:h-8 pl-4 w-[120px] text-[9px] border border-r-0  sm:text-xs sm:w-[344px]  lg:w-[275px]  md:w-[152px]  xl:w-[390px] rounded-l-md text-gray-700 focus:outline-none"
-                  />
-                  <button className="border-l-0 w-10 h-7 sm:h-8 md:w-[35px] border rounded-r-md text-gray-300 ">
-                    <i className="fas fa-search text-xs xl:text-[16px]"></i>
-                  </button>
+                  <div className="border rounded-md">
+                    <input
+                      type="text"
+                      placeholder="Search For Products..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={searchEnter}
+                      className="h-7 sm:h-8 pl-4 w-[120px] text-[9px] sm:text-xs sm:w-[344px] lg:w-[275px]  md:w-[148px]  xl:w-[390px] rounded-l-md text-gray-700 focus:outline-none"
+                    />
+                    <button className="border-l-0 w-10 h-7 sm:h-8 md:w-[35px] text-gray-300 ">
+                      <i className="fas fa-search text-xs xl:text-[16px]"></i>
+                    </button>
+                  </div>
                   <div className="flex text-[12px] ml-2 md:mx-5 sm:ml-4 md:ml-6 xl:text-xl justify-center items-center lg:text-[16px]  md:text-[12px] sm:text-[17px]">
                     <div>
                       <Link to="/login">
@@ -78,7 +80,7 @@ const Header = () => {
                   </div>
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="inline-flex items-center  sm:mx-2  h-10 w-[42px] sm:w-8 sm:h-10 justify-center text-gray-500 rounded-lg md:hidden focus:outline-none "
+                    className="inline-flex items-center sm:mx-2 h-10 w-[42px] sm:w-8 sm:h-10 justify-center text-gray-500 rounded-lg md:hidden focus:outline-none "
                     aria-controls="navbar-sticky"
                     aria-expanded={isMobileMenuOpen}
                   >
